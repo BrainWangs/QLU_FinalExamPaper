@@ -4,6 +4,7 @@ import { resolve, extname } from 'path'
 
 const REPO_ROOT = resolve(__dirname, '..')
 const DATA_DIR = resolve(REPO_ROOT, 'src', 'data')
+const ASSETS_DIR = resolve(REPO_ROOT, '..', 'assets')
 
 function readJson(file: string) {
   const p = resolve(DATA_DIR, file)
@@ -27,6 +28,12 @@ function err(res: { statusCode: number; end: (s: string) => void }, code: number
   res.end(JSON.stringify({ message: msg }))
 }
 
+function getCatDir(id: string): string {
+  const cats = readJson('categories.json')
+  const cat = cats.find((c: { id: string; name: string }) => c.id === id)
+  return cat ? cat.name : id
+}
+
 export function adminPlugin(): Plugin {
   return {
     name: 'admin-api',
@@ -38,7 +45,19 @@ export function adminPlugin(): Plugin {
         } else if (req.method === 'PUT') {
           let body = ''
           req.on('data', (c: Buffer) => (body += c.toString()))
-          req.on('end', () => { writeJson('categories.json', JSON.parse(body)); ok(res) })
+          req.on('end', () => {
+            const oldCats = readJson('categories.json')
+            const newCats = JSON.parse(body)
+            const oldIds = new Set(oldCats.map((c: { id: string }) => c.id))
+            for (const cat of newCats) {
+              if (!oldIds.has(cat.id)) {
+                const dir = resolve(ASSETS_DIR, cat.name)
+                if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+              }
+            }
+            writeJson('categories.json', newCats)
+            ok(res)
+          })
         } else { res.statusCode = 405; res.end() }
       })
 
@@ -58,8 +77,8 @@ export function adminPlugin(): Plugin {
         let body = ''
         req.on('data', (c: Buffer) => (body += c.toString()))
         req.on('end', () => {
-          const { id, path } = JSON.parse(body)
-          const fullPath = resolve(REPO_ROOT, '..', '..', path)
+          const { id, path: filePath } = JSON.parse(body)
+          const fullPath = resolve(ASSETS_DIR, filePath)
           if (existsSync(fullPath)) unlinkSync(fullPath)
           const files = readJson('files.json')
           writeJson('files.json', files.filter((f: { id: string }) => f.id !== id))
@@ -104,7 +123,10 @@ export function adminPlugin(): Plugin {
           }
 
           const ext = extname(filename).slice(1).toLowerCase()
-          const targetPath = resolve(REPO_ROOT, '..', '..', filename)
+          const catDir = getCatDir(categoryId)
+          const categoryDir = resolve(ASSETS_DIR, catDir)
+          if (!existsSync(categoryDir)) mkdirSync(categoryDir, { recursive: true })
+          const targetPath = resolve(categoryDir, filename)
           writeFileSync(targetPath, fileBuffer)
           const stats = statSync(targetPath)
 
@@ -113,7 +135,7 @@ export function adminPlugin(): Plugin {
             filename,
             categoryId,
             notes: notes || undefined,
-            path: filename,
+            path: `${catDir}/${filename}`,
             size: stats.size,
             ext,
             addedAt: new Date().toISOString(),

@@ -3,7 +3,7 @@
     "id": "f01",
     "filename": "17-18-2-A 无线传感器网络.pdf",
     "categoryId": "iot",
-    "path": "17-18-2-A 无线传感器网络.pdf",
+    "path": "物联网工程/17-18-2-A 无线传感器网络.pdf",
     "size": 209745,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -12,7 +12,7 @@
     "id": "f02",
     "filename": "18-19-2-A 无线传感器网络.pdf",
     "categoryId": "iot",
-    "path": "18-19-2-A 无线传感器网络.pdf",
+    "path": "物联网工程/18-19-2-A 无线传感器网络.pdf",
     "size": 287450,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -21,7 +21,7 @@
     "id": "f03",
     "filename": "19-20-1-A 概率论与数理统计I.pdf",
     "categoryId": "general",
-    "path": "19-20-1-A 概率论与数理统计I.pdf",
+    "path": "公共基础课/19-20-1-A 概率论与数理统计I.pdf",
     "size": 283116,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -30,7 +30,7 @@
     "id": "f04",
     "filename": "19-20-2-A 大学物理III.pdf",
     "categoryId": "general",
-    "path": "19-20-2-A 大学物理III.pdf",
+    "path": "公共基础课/19-20-2-A 大学物理III.pdf",
     "size": 610259,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -40,7 +40,7 @@
     "filename": "19-20-2-A 大学物理III答案.pdf",
     "categoryId": "general",
     "notes": "含答案",
-    "path": "19-20-2-A 大学物理III答案.pdf",
+    "path": "公共基础课/19-20-2-A 大学物理III答案.pdf",
     "size": 629393,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -49,7 +49,7 @@
     "id": "f06",
     "filename": "19-20-2-B 大学物理III.pdf",
     "categoryId": "general",
-    "path": "19-20-2-B 大学物理III.pdf",
+    "path": "公共基础课/19-20-2-B 大学物理III.pdf",
     "size": 343141,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -59,7 +59,7 @@
     "filename": "19-20-2-B 大学物理III答案.pdf",
     "categoryId": "general",
     "notes": "含答案",
-    "path": "19-20-2-B 大学物理III答案.pdf",
+    "path": "公共基础课/19-20-2-B 大学物理III答案.pdf",
     "size": 756151,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -68,7 +68,7 @@
     "id": "f08",
     "filename": "20-21-1-A 概率论与数理统计I.pdf",
     "categoryId": "general",
-    "path": "20-21-1-A 概率论与数理统计I.pdf",
+    "path": "公共基础课/20-21-1-A 概率论与数理统计I.pdf",
     "size": 590900,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -77,7 +77,7 @@
     "id": "f09",
     "filename": "20-21-1-A 电路与电子技术.zip",
     "categoryId": "general",
-    "path": "20-21-1-A 电路与电子技术.zip",
+    "path": "公共基础课/20-21-1-A 电路与电子技术.zip",
     "size": 25769378,
     "ext": "zip",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -86,7 +86,7 @@
     "id": "f10",
     "filename": "20-21-1-A 线性代数II.zip",
     "categoryId": "general",
-    "path": "20-21-1-A 线性代数II.zip",
+    "path": "公共基础课/20-21-1-A 线性代数II.zip",
     "size": 1752635,
     "ext": "zip",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -95,7 +95,7 @@
     "id": "f11",
     "filename": "20-21-2-A 无线传感器网络.pdf",
     "categoryId": "iot",
-    "path": "20-21-2-A 无线传感器网络.pdf",
+    "path": "物联网工程/20-21-2-A 无线传感器网络.pdf",
     "size": 300261,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -104,7 +104,7 @@
     "id": "f12",
     "filename": "21-22-1-A Python[计科].pdf",
     "categoryId": "cs",
-    "path": "21-22-1-A Python[计科].pdf",
+    "path": "计算机科学与技术/21-22-1-A Python[计科].pdf",
     "size": 993723,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -113,7 +113,7 @@
     "id": "f13",
     "filename": "21-22-2-A 传感器与检测技术.pdf",
     "categoryId": "iot",
-    "path": "21-22-2-A 传感器与检测技术.pdf",
+    "path": "物联网工程/21-22-2-A 传感器与检测技术.pdf",
     "size": 359254,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -122,7 +122,7 @@
     "id": "f14",
     "filename": "21-22-2-A 物联网控制技术.pdf",
     "categoryId": "iot",
-    "path": "21-22-2-A 物联网控制技术.pdf",
+    "path": "物联网工程/21-22-2-A 物联网控制技术.pdf",
     "size": 240930,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -131,7 +131,7 @@
     "id": "f15",
     "filename": "21-22-2-A 计算机组成原理物联网.pdf",
     "categoryId": "cs",
-    "path": "21-22-2-A 计算机组成原理物联网.pdf",
+    "path": "计算机科学与技术/21-22-2-A 计算机组成原理物联网.pdf",
     "size": 1208878,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -140,7 +140,7 @@
     "id": "f16",
     "filename": "21-22-2-A 面向对象程序设计.pdf",
     "categoryId": "cs",
-    "path": "21-22-2-A 面向对象程序设计.pdf",
+    "path": "计算机科学与技术/21-22-2-A 面向对象程序设计.pdf",
     "size": 5044134,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -149,7 +149,7 @@
     "id": "f17",
     "filename": "22-23-2-A 无线传感器网络.pdf",
     "categoryId": "iot",
-    "path": "22-23-2-A 无线传感器网络.pdf",
+    "path": "物联网工程/22-23-2-A 无线传感器网络.pdf",
     "size": 303876,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -159,7 +159,7 @@
     "filename": "22-23-2-A 物联网工程与实践 模拟题.pdf",
     "categoryId": "iot",
     "notes": "模拟题",
-    "path": "22-23-2-A 物联网工程与实践 模拟题.pdf",
+    "path": "物联网工程/22-23-2-A 物联网工程与实践 模拟题.pdf",
     "size": 310192,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
@@ -168,7 +168,7 @@
     "id": "f19",
     "filename": "22-23-2-A 物联网软件工程.pdf",
     "categoryId": "iot",
-    "path": "22-23-2-A 物联网软件工程.pdf",
+    "path": "物联网工程/22-23-2-A 物联网软件工程.pdf",
     "size": 533739,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"

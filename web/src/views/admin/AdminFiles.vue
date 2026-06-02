@@ -16,9 +16,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="f in filtered" :key="f.id">
+        <tr v-for="f in filtered" :key="f.id" :class="{ unclassified: !f.categoryId }">
           <td class="td-name">{{ f.filename }}</td>
-          <td>{{ getCatName(f.categoryId) }}</td>
+          <td>
+            <select
+              :value="f.categoryId"
+              class="cat-select"
+              @change="assignCategory(f, ($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">未分类</option>
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+            </select>
+          </td>
           <td>{{ formatFileSize(f.size) }}</td>
           <td>{{ f.notes ?? '-' }}</td>
           <td>
@@ -32,7 +41,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { adminLoadFiles, adminLoadCategories, adminDeleteFile } from '@/utils/admin-api'
+import { adminLoadFiles, adminLoadCategories, adminDeleteFile, adminSaveFiles } from '@/utils/admin-api'
 import type { FileEntry, Category } from '@/types'
 import { formatFileSize } from '@/utils/format'
 
@@ -47,7 +56,13 @@ const filtered = computed(() => {
 })
 
 function getCatName(id: string) {
+  if (!id) return '未分类'
   return categories.value.find((c) => c.id === id)?.name ?? id
+}
+
+async function assignCategory(file: FileEntry, newCatId: string) {
+  file.categoryId = newCatId
+  await adminSaveFiles(files.value)
 }
 
 onMounted(async () => {
@@ -75,4 +90,6 @@ async function handleDelete(f: FileEntry) {
 .btn-sm:hover { background: var(--color-border); }
 .btn-danger { color: var(--color-danger); }
 .btn-danger:hover { background: #fce8e6; }
+.unclassified { background: #fff8e1; }
+.cat-select { padding: 4px 8px; border: 1px solid var(--color-border); border-radius: 4px; font-size: 0.85rem; font-family: inherit; }
 </style>

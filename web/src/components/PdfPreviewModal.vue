@@ -39,7 +39,7 @@ const error = ref('')
 const pageNum = ref(1)
 const totalPages = ref(0)
 
-const fileUrl = computed(() => `/${props.url}`)
+const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.url}`)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let pdfDoc: any = null

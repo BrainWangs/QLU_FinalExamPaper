@@ -28,7 +28,7 @@ defineEmits<{ preview: [file: FileEntry] }>()
 const fileIcon = computed(() => getFileIcon(props.file.ext))
 const formattedSize = computed(() => formatFileSize(props.file.size))
 const previewable = computed(() => isPreviewable(props.file.ext))
-const fileUrl = computed(() => `/${props.file.path}`)
+const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.file.path}`)
 </script>
 
 <style scoped>

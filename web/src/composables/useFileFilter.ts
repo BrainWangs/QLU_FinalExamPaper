@@ -23,12 +23,18 @@ export function useFileFilter(files: () => FileEntry[], categories: () => Catego
     minMatchCharLength: 1,
   }))
 
+  const unclassifiedCount = computed(() =>
+    files().filter((f) => !f.categoryId).length
+  )
+
   const filteredFiles = computed(() => {
     let result = files()
     if (searchQuery.value.trim()) {
       result = fuse.value.search(searchQuery.value.trim()).map((r) => r.item)
     }
-    if (activeCategory.value !== 'all') {
+    if (activeCategory.value === 'unclassified') {
+      result = result.filter((f) => !f.categoryId)
+    } else if (activeCategory.value !== 'all') {
       result = result.filter((f) => f.categoryId === activeCategory.value)
     }
     return result
@@ -38,11 +44,16 @@ export function useFileFilter(files: () => FileEntry[], categories: () => Catego
     const base = searchQuery.value.trim()
       ? fuse.value.search(searchQuery.value.trim()).map((r) => r.item)
       : files()
-    return categories().map((cat) => ({
+    const result = categories().map((cat) => ({
       id: cat.id,
       name: cat.name,
       count: base.filter((f) => f.categoryId === cat.id).length,
     }))
+    const uncat = base.filter((f) => !f.categoryId).length
+    if (uncat > 0) {
+      result.push({ id: 'unclassified', name: '未分类', count: uncat })
+    }
+    return result
   })
 
   function getCategoryName(id: string): string {

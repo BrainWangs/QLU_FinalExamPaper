@@ -1,43 +1,79 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import { existsSync, readFileSync, mkdirSync, writeFileSync, cpSync } from 'fs'
-import { dirname } from 'path'
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs'
+import { join, relative } from 'path'
 import { adminPlugin } from './src/plugins/admin-plugin'
 import type { Plugin } from 'vite'
 
-const REPO = resolve(__dirname, '..')
+function scanDir(dir: string, base: string): string[] {
+  const results: string[] = []
+  if (!existsSync(dir)) return results
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry)
+    if (statSync(full).isDirectory()) {
+      results.push(...scanDir(full, base))
+    } else {
+      results.push(relative(base, full).replace(/\\/g, '/'))
+    }
+  }
+  return results
+}
 
-function copyFilesPlugin(): Plugin {
+function autoDiscoverPlugin(): Plugin {
   return {
-    name: 'copy-files',
-    closeBundle() {
-      const dataDir = resolve(__dirname, 'src', 'data')
-      const filesPath = resolve(dataDir, 'files.json')
-      if (!existsSync(filesPath)) return
-      const files: { path: string }[] = JSON.parse(readFileSync(filesPath, 'utf-8'))
-      const distDir = resolve(__dirname, 'dist')
-      for (const f of files) {
-        const src = resolve(REPO, f.path)
-        const dest = resolve(distDir, f.path)
-        if (existsSync(src)) {
-          mkdirSync(dirname(dest), { recursive: true })
-          cpSync(src, dest)
+    name: 'auto-discover',
+    buildStart() {
+      const assetsDir = resolve(__dirname, '..', 'assets')
+      const filesPath = resolve(__dirname, 'src', 'data', 'files.json')
+      if (!existsSync(assetsDir)) return
+
+      const existing: { path: string; id: string }[] = existsSync(filesPath)
+        ? JSON.parse(readFileSync(filesPath, 'utf-8'))
+        : []
+
+      const registered = new Set(existing.map((f: { path: string }) => f.path))
+      const diskFiles = scanDir(assetsDir, assetsDir)
+
+      let added = false
+      for (const relPath of diskFiles) {
+        if (!registered.has(relPath)) {
+          const ext = relPath.split('.').pop()?.toLowerCase() ?? ''
+          if (['svg', 'png', 'jpg', 'ico', 'html', 'css', 'js'].includes(ext)) continue
+          const filename = relPath.split('/').pop() ?? relPath
+          try {
+            const size = statSync(resolve(assetsDir, relPath)).size
+            existing.push({
+              id: `f${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+              filename,
+              categoryId: '',
+              path: relPath,
+              size,
+              ext,
+              addedAt: new Date().toISOString(),
+            })
+            added = true
+            console.log(`  [auto-discover] added: ${relPath}`)
+          } catch { /* skip unreadable files */ }
         }
+      }
+
+      if (added) {
+        writeFileSync(filesPath, JSON.stringify(existing, null, 2), 'utf-8')
       }
     },
   }
 }
 
 export default defineConfig({
-  plugins: [vue(), adminPlugin(), copyFilesPlugin()],
+  plugins: [vue(), adminPlugin(), autoDiscoverPlugin()],
   base: '/QLU_FinalExamPaper/',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
     },
   },
-  publicDir: resolve(__dirname, 'public'),
+  publicDir: resolve(__dirname, '..', 'assets'),
   build: {
     rollupOptions: {
       output: {
