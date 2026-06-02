@@ -55,11 +55,6 @@ const filtered = computed(() => {
   return files.value.filter((f) => f.filename.toLowerCase().includes(q))
 })
 
-function getCatName(id: string) {
-  if (!id) return '未分类'
-  return categories.value.find((c) => c.id === id)?.name ?? id
-}
-
 async function assignCategory(file: FileEntry, newCatId: string) {
   file.categoryId = newCatId
   await adminSaveFiles(files.value)

@@ -23,10 +23,6 @@ export function useFileFilter(files: () => FileEntry[], categories: () => Catego
     minMatchCharLength: 1,
   }))
 
-  const unclassifiedCount = computed(() =>
-    files().filter((f) => !f.categoryId).length
-  )
-
   const filteredFiles = computed(() => {
     let result = files()
     if (searchQuery.value.trim()) {

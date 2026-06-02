@@ -76,6 +76,7 @@ async function renderPage() {
   const canvas = document.createElement('canvas')
   canvas.height = viewport.height
   canvas.width = viewport.width
+  canvas.style.display = 'block'
   canvasContainer.value.appendChild(canvas)
   const ctx = canvas.getContext('2d')!
   await page.render({ canvasContext: ctx, viewport }).promise
@@ -97,8 +98,8 @@ watch(() => props.visible, async (v) => {
 }
 .modal {
   background: var(--color-bg); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg); width: 100%; max-width: 900px;
-  max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: var(--shadow-lg); width: 100%; max-width: 960px;
+  max-height: 95vh; display: flex; flex-direction: column; overflow: hidden;
 }
 .modal-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -114,8 +115,8 @@ watch(() => props.visible, async (v) => {
 .spinner { width: 32px; height: 32px; border: 3px solid var(--color-border); border-top-color: var(--color-accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .modal-error { padding: 64px; text-align: center; color: var(--color-danger); }
-.modal-body { flex: 1; overflow: auto; padding: var(--space-md); display: flex; justify-content: center; }
-.modal-body canvas { max-width: 100%; height: auto; }
+.modal-body { flex: 1; overflow: auto; padding: var(--space-md); }
+.modal-body canvas { display: block; margin: 0 auto; }
 .modal-footer { display: flex; align-items: center; justify-content: center; gap: var(--space-md); padding: var(--space-md); border-top: 1px solid var(--color-border); }
 .modal-footer button { padding: 6px 16px; background: var(--color-surface); color: var(--color-text); border-radius: var(--radius-sm); font-size: 0.85rem; }
 .modal-footer button:hover:not(:disabled) { background: var(--color-border); }

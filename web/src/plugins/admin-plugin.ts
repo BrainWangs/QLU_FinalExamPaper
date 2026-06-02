@@ -1,10 +1,14 @@
 import type { Plugin } from 'vite'
 import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync, unlinkSync } from 'fs'
-import { resolve, extname } from 'path'
+import { resolve, extname, dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-const REPO_ROOT = resolve(__dirname, '..')
-const DATA_DIR = resolve(REPO_ROOT, 'src', 'data')
-const ASSETS_DIR = resolve(REPO_ROOT, '..', 'assets')
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+// __dirname is web/src/plugins/, go up 2 levels to web/
+const PROJECT_ROOT = resolve(__dirname, '..', '..')
+const DATA_DIR = resolve(PROJECT_ROOT, 'src', 'data')
+const ASSETS_DIR = resolve(PROJECT_ROOT, '..', 'assets')
 
 function readJson(file: string) {
   const p = resolve(DATA_DIR, file)
@@ -18,7 +22,7 @@ function writeJson(file: string, data: unknown) {
   writeFileSync(p, JSON.stringify(data, null, 2), 'utf-8')
 }
 
-function json(res: { setHeader: (k: string, v: string) => void; end: (s: string) => void }, data: unknown, code = 200) {
+function json(res: { setHeader: (k: string, v: string) => void; end: (s: string) => void; statusCode: number }, data: unknown, code = 200) {
   res.statusCode = code
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(data))
@@ -30,11 +34,12 @@ function getCatDir(id: string): string {
   return cat ? cat.name : id
 }
 
-function readBody(req: Parameters<Parameters<Plugin['configureServer']>[0]['middlewares']['use']>[1]): Promise<string> {
-  return new Promise((resolve) => {
+function readBody(req: { on: (e: string, cb: (...a: unknown[]) => void) => void }): Promise<string> {
+  return new Promise((resolve, reject) => {
     let body = ''
-    req.on('data', (c: Buffer) => (body += c.toString()))
+    req.on('data', (c) => (body += (c as Buffer).toString()))
     req.on('end', () => resolve(body))
+    req.on('error', reject)
   })
 }
 
@@ -42,18 +47,18 @@ export function adminPlugin(): Plugin {
   return {
     name: 'admin-api',
     configureServer(server) {
-      // Single handler with manual routing
+      // Connect strips the mount prefix from req.url.
+      // e.g. GET /__admin/categories → req.url is /categories
       server.middlewares.use('/__admin', async (req, res) => {
         const url = req.url ?? ''
         const method = req.method ?? 'GET'
+        const send = (data: unknown, code = 200) => json(res as Parameters<typeof json>[0], data, code)
 
-        // GET /__admin/categories
-        if (url === '/__admin/categories' && method === 'GET') {
-          return json(res, readJson('categories.json'))
+        if (url === '/categories' && method === 'GET') {
+          return send(readJson('categories.json'))
         }
 
-        // PUT /__admin/categories
-        if (url === '/__admin/categories' && method === 'PUT') {
+        if (url === '/categories' && method === 'PUT') {
           const body = await readBody(req)
           const oldCats = readJson('categories.json')
           const newCats = JSON.parse(body)
@@ -65,66 +70,84 @@ export function adminPlugin(): Plugin {
             }
           }
           writeJson('categories.json', newCats)
-          return json(res, { ok: true })
+          return send({ ok: true })
         }
 
-        // GET /__admin/files
-        if (url === '/__admin/files' && method === 'GET') {
-          return json(res, readJson('files.json'))
+        if (url === '/files' && method === 'GET') {
+          return send(readJson('files.json'))
         }
 
-        // PUT /__admin/files
-        if (url === '/__admin/files' && method === 'PUT') {
+        if (url === '/files' && method === 'PUT') {
           const body = await readBody(req)
           writeJson('files.json', JSON.parse(body))
-          return json(res, { ok: true })
+          return send({ ok: true })
         }
 
-        // POST /__admin/files/delete
-        if (url === '/__admin/files/delete' && method === 'POST') {
+        if (url === '/files/delete' && method === 'POST') {
           const body = await readBody(req)
           const { id, path: filePath } = JSON.parse(body)
           const fullPath = resolve(ASSETS_DIR, filePath)
+          // Prevent path traversal: ensure resolved path is within ASSETS_DIR
+          if (!fullPath.startsWith(ASSETS_DIR)) {
+            return send({ message: 'Invalid path' }, 403)
+          }
           if (existsSync(fullPath)) unlinkSync(fullPath)
           const files = readJson('files.json')
           writeJson('files.json', files.filter((f: { id: string }) => f.id !== id))
-          return json(res, { ok: true })
+          return send({ ok: true })
         }
 
-        // POST /__admin/upload
-        if (url === '/__admin/upload' && method === 'POST') {
+        if (url === '/upload' && method === 'POST') {
           const chunks: Buffer[] = []
           req.on('data', (c: Buffer) => chunks.push(c))
-          await new Promise<void>((resolve) => req.on('end', resolve))
-          const raw = Buffer.concat(chunks).toString()
-          const boundary = req.headers['content-type']?.match(/boundary=(.+)/)?.[1]
-          if (!boundary) return json(res, { message: 'No boundary' }, 400)
+          await new Promise<void>((resolve, reject) => {
+            req.on('end', resolve)
+            req.on('error', reject)
+          })
 
-          const parts = raw.split(`--${boundary}`)
+          // Parse multipart form data directly from buffer (avoid string corruption)
+          const raw = Buffer.concat(chunks)
+          const contentType = req.headers['content-type'] ?? ''
+          const boundaryMatch = contentType.match(/boundary=(.+)/)
+          if (!boundaryMatch) return send({ message: 'No boundary' }, 400)
+          const boundary = boundaryMatch[1]
+          const boundaryBuf = Buffer.from(`--${boundary}`)
+
           let fileBuffer: Buffer | null = null
           let filename = ''
           let categoryId = ''
           let notes = ''
 
-          for (const part of parts) {
-            if (part.includes('Content-Disposition: form-data; name="file"')) {
-              const headerEnd = part.indexOf('\r\n\r\n')
-              if (headerEnd === -1) continue
-              const content = part.slice(headerEnd + 4, part.lastIndexOf('\r\n'))
-              fileBuffer = Buffer.from(content, 'binary')
-              const nameMatch = part.match(/filename="(.+?)"/)
-              if (nameMatch) filename = nameMatch[1]
-            } else if (part.includes('Content-Disposition: form-data; name="categoryId"')) {
-              const headerEnd = part.indexOf('\r\n\r\n')
-              if (headerEnd !== -1) categoryId = part.slice(headerEnd + 4).trim()
-            } else if (part.includes('Content-Disposition: form-data; name="notes"')) {
-              const headerEnd = part.indexOf('\r\n\r\n')
-              if (headerEnd !== -1) notes = part.slice(headerEnd + 4).trim()
+          // Split by boundary bytes
+          let start = raw.indexOf(boundaryBuf) + boundaryBuf.length
+          while (start < raw.length) {
+            const nextBoundary = raw.indexOf(boundaryBuf, start)
+            const partEnd = nextBoundary === -1 ? raw.length : nextBoundary
+            const part = raw.subarray(start, partEnd)
+            const headerEnd = part.indexOf('\r\n\r\n')
+            if (headerEnd !== -1) {
+              const header = part.subarray(0, headerEnd).toString()
+              const content = part.subarray(headerEnd + 4)
+              // Trim trailing \r\n before boundary
+              const end = content.length >= 2 && content[content.length - 1] === 0x0a && content[content.length - 2] === 0x0d
+                ? content.length - 2 : content.length
+              const cleanContent = content.subarray(0, end)
+
+              if (header.includes('name="file"')) {
+                fileBuffer = Buffer.from(cleanContent)
+                const nameMatch = header.match(/filename="(.+?)"/)
+                if (nameMatch) filename = nameMatch[1]
+              } else if (header.includes('name="categoryId"')) {
+                categoryId = cleanContent.toString().trim()
+              } else if (header.includes('name="notes"')) {
+                notes = cleanContent.toString().trim()
+              }
             }
+            start = partEnd + boundaryBuf.length
           }
 
           if (!fileBuffer || !filename || !categoryId) {
-            return json(res, { message: 'Missing file, filename, or categoryId' }, 400)
+            return send({ message: 'Missing file, filename, or categoryId' }, 400)
           }
 
           const ext = extname(filename).slice(1).toLowerCase()
@@ -146,15 +169,13 @@ export function adminPlugin(): Plugin {
             addedAt: new Date().toISOString(),
           }
 
-          const files = readJson('files.json')
-          files.push(newFile)
-          writeJson('files.json', files)
-          return json(res, newFile)
+          const f = readJson('files.json')
+          f.push(newFile)
+          writeJson('files.json', f)
+          return send(newFile)
         }
 
-        // Fallback
-        res.statusCode = 404
-        res.end(JSON.stringify({ message: 'Not found' }))
+        return send({ message: 'Not found' }, 404)
       })
     },
   }
