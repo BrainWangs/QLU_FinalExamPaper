@@ -54,7 +54,7 @@ async function loadPdf() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const lib: any = await import('pdfjs-dist')
-    lib.GlobalWorkerOptions.workerSrc = ''
+    lib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs'
     const task = lib.getDocument(fileUrl.value)
     pdfDoc = await task.promise
     totalPages.value = pdfDoc.numPages

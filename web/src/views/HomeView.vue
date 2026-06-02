@@ -16,7 +16,6 @@
         />
       </main>
     </div>
-    <GitHubButton />
     <PdfPreviewModal
       :visible="previewVisible"
       :url="previewFile?.path ?? ''"
@@ -31,7 +30,6 @@ import { ref, onMounted } from 'vue'
 import Header from '@/components/Header.vue'
 import CategorySidebar from '@/components/CategorySidebar.vue'
 import FileGrid from '@/components/FileGrid.vue'
-import GitHubButton from '@/components/GitHubButton.vue'
 import PdfPreviewModal from '@/components/PdfPreviewModal.vue'
 import { useFileFilter } from '@/composables/useFileFilter'
 import { loadCategories, loadFiles } from '@/utils/data'
