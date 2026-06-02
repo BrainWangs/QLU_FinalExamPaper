@@ -39,6 +39,8 @@ const error = ref('')
 const pageNum = ref(1)
 const totalPages = ref(0)
 
+import pdfjsWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+
 const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.url}`)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,7 +56,7 @@ async function loadPdf() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const lib: any = await import('pdfjs-dist')
-    lib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs'
+    lib.GlobalWorkerOptions.workerSrc = pdfjsWorkerUrl
     const task = lib.getDocument(fileUrl.value)
     pdfDoc = await task.promise
     totalPages.value = pdfDoc.numPages
