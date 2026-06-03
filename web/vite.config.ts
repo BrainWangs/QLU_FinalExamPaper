@@ -20,6 +20,17 @@ function scanDir(dir: string, base: string): string[] {
   return results
 }
 
+function spaFallbackPlugin(): Plugin {
+  return {
+    name: 'spa-fallback',
+    closeBundle() {
+      const dist = resolve(__dirname, 'dist')
+      const idx = resolve(dist, 'index.html')
+      if (existsSync(idx)) writeFileSync(resolve(dist, '404.html'), readFileSync(idx))
+    },
+  }
+}
+
 function autoDiscoverPlugin(): Plugin {
   return {
     name: 'auto-discover',
@@ -66,7 +77,7 @@ function autoDiscoverPlugin(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [vue(), adminPlugin(), autoDiscoverPlugin()],
+  plugins: [vue(), adminPlugin(), autoDiscoverPlugin(), spaFallbackPlugin()],
   base: '/QLU_FinalExamPaper/',
   resolve: {
     alias: {

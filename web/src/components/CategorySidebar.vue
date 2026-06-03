@@ -38,14 +38,23 @@ defineEmits<{
 .sidebar {
   width: var(--sidebar-width);
   flex-shrink: 0;
+  margin: var(--space-lg);
   padding: var(--space-lg);
-  border-right: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   overflow-y: auto;
+  align-self: flex-start;
+  position: sticky;
+  top: var(--space-lg);
 }
 
 .sidebar-title {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-text-muted);
@@ -62,25 +71,28 @@ defineEmits<{
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 700;
   color: var(--color-text-secondary);
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
-.category-item:hover { background: var(--color-surface); color: var(--color-text); }
+.category-item:hover { background: rgba(50, 130, 184, 0.08); color: var(--color-text); }
 
 .category-item.active {
   background: var(--color-accent-light);
   color: var(--color-accent);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .category-count {
   font-size: 0.8rem;
-  color: var(--color-text-muted);
-  background: var(--color-surface);
+  color: var(--color-accent);
+  background: var(--color-accent-light);
   padding: 2px 8px;
   border-radius: 10px;
 }
 
 .category-item.active .category-count { background: var(--color-accent); color: #fff; }
+.category-item:first-child .category-count { background: rgba(50, 130, 184, 0.08); color: var(--color-text-secondary); }
+.category-item:first-child.active .category-count { background: var(--color-accent); color: #fff; }
 </style>

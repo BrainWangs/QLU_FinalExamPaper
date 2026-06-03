@@ -92,12 +92,18 @@ watch(() => props.visible, async (v) => {
 
 <style scoped>
 .overlay {
-  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+  position: fixed; inset: 0; background: rgba(15, 76, 117, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex; align-items: center; justify-content: center;
   z-index: 200; padding: var(--space-lg);
 }
 .modal {
-  background: var(--color-bg); border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg); width: 100%; max-width: 960px;
   max-height: 95vh; display: flex; flex-direction: column; overflow: hidden;
 }
@@ -105,9 +111,9 @@ watch(() => props.visible, async (v) => {
   display: flex; align-items: center; justify-content: space-between;
   padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--color-border);
 }
-.modal-title { font-size: 1rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.modal-title { font-size: 1rem; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .modal-actions { display: flex; align-items: center; gap: var(--space-sm); }
-.btn-dl { padding: 6px 14px; background: var(--color-accent); color: #fff; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; }
+.btn-dl { padding: 6px 14px; background: var(--color-accent); color: #fff; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; }
 .btn-dl:hover { background: var(--color-accent-hover); }
 .btn-close { padding: 6px 10px; background: var(--color-surface); color: var(--color-text); border-radius: var(--radius-sm); font-size: 1rem; }
 .btn-close:hover { background: var(--color-border); }

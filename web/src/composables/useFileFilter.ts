@@ -40,11 +40,13 @@ export function useFileFilter(files: () => FileEntry[], categories: () => Catego
     const base = searchQuery.value.trim()
       ? fuse.value.search(searchQuery.value.trim()).map((r) => r.item)
       : files()
-    const result = categories().map((cat) => ({
-      id: cat.id,
-      name: cat.name,
-      count: base.filter((f) => f.categoryId === cat.id).length,
-    }))
+    const result = categories()
+      .map((cat) => ({
+        id: cat.id,
+        name: cat.name,
+        count: base.filter((f) => f.categoryId === cat.id).length,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
     const uncat = base.filter((f) => !f.categoryId).length
     if (uncat > 0) {
       result.push({ id: 'unclassified', name: '未分类', count: uncat })

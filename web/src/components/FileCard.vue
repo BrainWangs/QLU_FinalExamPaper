@@ -33,26 +33,29 @@ const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.file.path}`)
 
 <style scoped>
 .card {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  box-shadow: var(--shadow-sm);
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
 }
 
 .card-icon { font-size: 2rem; line-height: 1; }
 
 .card-name {
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--color-text);
   line-height: 1.4;
   display: -webkit-box;
@@ -65,13 +68,13 @@ const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.file.path}`)
 
 .card-category {
   font-size: 0.75rem;
-  color: var(--color-text-muted);
-  background: var(--color-surface);
+  color: #fff;
+  background: var(--color-accent-light);
   padding: 2px 8px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-.card-size { font-size: 0.8rem; color: var(--color-text-muted); }
+.card-size { font-size: 0.8rem; color: #fff; }
 
 .card-actions { display: flex; gap: var(--space-sm); margin-top: auto; }
 
@@ -80,14 +83,14 @@ const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.file.path}`)
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 700;
   text-align: center;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
-.btn-preview { background: var(--color-surface); color: var(--color-text); }
-.btn-preview:hover { background: var(--color-border); }
+.btn-preview { background: rgba(255, 255, 255, 0.7); border: 1px solid var(--glass-border); color: var(--color-text); }
+.btn-preview:hover { background: rgba(50, 130, 184, 0.1); }
 
 .btn-download { background: var(--color-accent); color: #fff; display: block; }
-.btn-download:hover { background: var(--color-accent-hover); }
+.btn-download:hover { background: var(--color-accent-hover); transform: scale(1.02); }
 </style>

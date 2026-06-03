@@ -1,1 +1,4 @@
 web/dist/
+/openspec/
+/.idea/
+/.claude/

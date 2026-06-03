@@ -1,23 +1,27 @@
 :root {
-  --color-bg: #ffffff;
-  --color-surface: #f8f9fa;
-  --color-card: #ffffff;
-  --color-border: #e8eaed;
-  --color-text: #202124;
-  --color-text-secondary: #5f6368;
-  --color-text-muted: #80868b;
-  --color-accent: #1a73e8;
-  --color-accent-hover: #1557b0;
-  --color-accent-light: #e8f0fe;
-  --color-danger: #ea4335;
+  --color-bg: #f0f5f9;
+  --color-surface: rgba(255, 255, 255, 0.35);
+  --color-card: rgba(255, 255, 255, 0.25);
+  --color-border: rgba(187, 225, 250, 0.5);
+  --color-text: #1a1a2e;
+  --color-text-secondary: #5a6a7a;
+  --color-text-muted: #8a9aaa;
+  --color-accent: #3282b8;
+  --color-accent-hover: #0f4c75;
+  --color-accent-light: rgba(28, 159, 243, 0.12);
+  --color-danger: #e74c3c;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --glass-bg: linear-gradient(135deg, rgba(15, 76, 117, 0.15), rgba(50, 130, 184, 0.15));
+  --glass-blur: blur(10px);
+  --glass-border: rgba(187, 225, 250, 0.4);
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(15, 76, 117, 0.06);
+  --shadow-md: 0 4px 20px rgba(15, 76, 117, 0.08);
+  --shadow-lg: 0 8px 40px rgba(15, 76, 117, 0.10);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
 
@@ -26,11 +30,10 @@
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
+  --space-2xl: 48px;
 
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
-
-  --sidebar-width: 240px;
 }
 
 *, *::before, *::after {
@@ -43,11 +46,16 @@ html {
   font-family: var(--font-sans);
   font-size: 16px;
   color: var(--color-text);
-  background: var(--color-bg);
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-body { min-height: 100vh; }
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(232, 240, 248, 0.45) 0%, rgba(240, 245, 249, 0.45) 40%, rgba(232, 239, 246, 0.45) 100%),
+    url('./bg.png') center / cover no-repeat fixed;
+}
 
 a { color: var(--color-accent); text-decoration: none; }
 

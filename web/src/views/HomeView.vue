@@ -1,6 +1,6 @@
 <template>
   <div class="app-layout">
-    <Header @search="onSearch" />
+    <Header @search="onSearch" @contribute="showContribute = true" />
     <div class="main-area">
       <CategorySidebar
         :categories="categoryDisplayStats"
@@ -22,6 +22,7 @@
       :filename="previewFile?.filename ?? ''"
       @close="previewVisible = false"
     />
+    <ContributeModal :visible="showContribute" @close="showContribute = false" />
   </div>
 </template>
 
@@ -31,6 +32,7 @@ import Header from '@/components/Header.vue'
 import CategorySidebar from '@/components/CategorySidebar.vue'
 import FileGrid from '@/components/FileGrid.vue'
 import PdfPreviewModal from '@/components/PdfPreviewModal.vue'
+import ContributeModal from '@/components/ContributeModal.vue'
 import { useFileFilter } from '@/composables/useFileFilter'
 import { loadCategories, loadFiles } from '@/utils/data'
 import type { FileEntry, Category } from '@/types'
@@ -48,6 +50,7 @@ const {
 
 const previewVisible = ref(false)
 const previewFile = ref<FileEntry | null>(null)
+const showContribute = ref(false)
 
 function onSearch(query: string) {
   searchQuery.value = query
@@ -80,6 +83,5 @@ onMounted(async () => {
   flex: 1;
   padding: var(--space-lg);
   overflow-y: auto;
-  background: var(--color-surface);
 }
 </style>

@@ -1,9 +1,10 @@
 <template>
   <header class="header">
     <div class="header-top">
+      <button class="contribute-btn" @click="$emit('contribute')">投稿</button>
       <div class="header-inner">
         <div class="brand">
-          <span class="brand-icon">🏫</span>
+          <span class="brand-icon"></span>
           <h1 class="brand-title">齐鲁工业大学期末试卷库</h1>
         </div>
         <p class="brand-sub">免费公开的历年期末试卷资源</p>
@@ -45,14 +46,13 @@ const isDev = import.meta.env.DEV
 
 defineEmits<{
   search: [value: string]
+  contribute: []
 }>()
 </script>
 
 <style scoped>
 .header {
   padding: var(--space-xl) var(--space-lg) var(--space-lg);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg);
 }
 
 .header-top {
@@ -62,6 +62,20 @@ defineEmits<{
   position: relative;
   margin-bottom: var(--space-lg);
 }
+
+.contribute-btn {
+  position: absolute; left: 0; top: 0;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  font-size: 0.9rem; font-weight: 700; color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.contribute-btn:hover { background: rgba(50, 130, 184, 0.12); }
 
 .header-inner { text-align: center; }
 
@@ -76,7 +90,7 @@ defineEmits<{
 
 .brand-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 900;
   color: var(--color-text);
   letter-spacing: -0.02em;
 }
@@ -103,7 +117,7 @@ defineEmits<{
   padding: 8px 14px;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 700;
   transition: background var(--transition-fast);
 }
 
@@ -116,11 +130,13 @@ defineEmits<{
 
 .github-link {
   color: var(--color-text);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
 }
 
-.github-link:hover { background: var(--color-border); }
+.github-link:hover { background: rgba(50, 130, 184, 0.1); }
 
 .search-wrap {
   position: relative;
@@ -142,9 +158,11 @@ defineEmits<{
   padding: 12px 16px 12px 42px;
   font-size: 0.95rem;
   font-family: inherit;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   color: var(--color-text);
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
