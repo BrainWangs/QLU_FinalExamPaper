@@ -1,16 +1,20 @@
 <template>
   <Teleport to="body">
-    <div v-if="visible" class="overlay" @click.self="$emit('close')">
+    <Transition name="contribute-modal">
+      <div v-if="visible" class="overlay" @click.self="$emit('close')">
       <div class="modal">
         <div class="modal-header">
           <h2 class="modal-title">投稿</h2>
           <button class="btn-close" @click="$emit('close')">&times;</button>
         </div>
         <div class="modal-body">
-          <!-- TODO: 待编辑内容 -->
+          <p>欢迎投稿！请将试卷发送至：</p>
+          <p style="margin-top:12px">📧 <a href="mailto:brianwangx@163.com">brianwangx@163.com</a></p>
+          <p style="margin-top:8px;color:var(--color-text-secondary);font-size:0.85rem">邮件标题为：QLU期末试卷投稿+考试学期+适用专业等信息</p>
         </div>
       </div>
     </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -21,16 +25,16 @@ defineEmits<{ close: [] }>()
 
 <style scoped>
 .overlay {
-  position: fixed; inset: 0; background: rgba(15, 76, 117, 0.3);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
   display: flex; align-items: center; justify-content: center;
   z-index: 200; padding: var(--space-lg);
 }
 .modal {
-  background: rgba(255, 255, 255, 0.15); backdrop-filter: var(--glass-blur);
+  background: rgba(255, 255, 255, 0.5); backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg); width: 100%; max-width: 560px; overflow: hidden;
+  box-shadow: var(--shadow-sm); width: 100%; max-width: 560px; overflow: hidden;
 }
 .modal-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -39,5 +43,5 @@ defineEmits<{ close: [] }>()
 .modal-title { font-size: 1.2rem; font-weight: 800; }
 .btn-close { padding: 4px 10px; background: rgba(255,255,255,0.5); border-radius: var(--radius-sm); font-size: 1.2rem; color: var(--color-text); }
 .btn-close:hover { background: rgba(50,130,184,0.1); }
-.modal-body { padding: var(--space-lg); min-height: 200px; }
+.modal-body { padding: var(--space-xl); min-height: 200px; text-align: center; font-size: 1.05rem; line-height: 1.8; font-weight: 700; }
 </style>

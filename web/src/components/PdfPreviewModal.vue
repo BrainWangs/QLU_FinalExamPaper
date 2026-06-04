@@ -1,6 +1,7 @@
 <template>
   <Teleport to="body">
-    <div v-if="visible" class="overlay" @click.self="$emit('close')">
+    <Transition name="pdf-modal">
+      <div v-if="visible" class="overlay" @click.self="$emit('close')">
       <div class="modal">
         <div class="modal-header">
           <h3 class="modal-title">{{ filename }}</h3>
@@ -24,6 +25,7 @@
         </div>
       </div>
     </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -92,40 +94,40 @@ watch(() => props.visible, async (v) => {
 
 <style scoped>
 .overlay {
-  position: fixed; inset: 0; background: rgba(15, 76, 117, 0.3);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: flex; align-items: center; justify-content: center;
   z-index: 200; padding: var(--space-lg);
 }
 .modal {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg); width: 100%; max-width: 960px;
+  box-shadow: var(--shadow-sm); width: 100%; max-width: 960px;
   max-height: 95vh; display: flex; flex-direction: column; overflow: hidden;
 }
 .modal-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--color-border);
+  padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--glass-border);
 }
 .modal-title { font-size: 1rem; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .modal-actions { display: flex; align-items: center; gap: var(--space-sm); }
 .btn-dl { padding: 6px 14px; background: var(--color-accent); color: #fff; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; }
 .btn-dl:hover { background: var(--color-accent-hover); }
-.btn-close { padding: 6px 10px; background: var(--color-surface); color: var(--color-text); border-radius: var(--radius-sm); font-size: 1rem; }
-.btn-close:hover { background: var(--color-border); }
+.btn-close { padding: 6px 10px; background: rgba(255,255,255,0.5); color: var(--color-text); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); font-size: 1rem; }
+.btn-close:hover { background: rgba(50,130,184,0.1); }
 .modal-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-md); padding: 64px; color: var(--color-text-secondary); }
-.spinner { width: 32px; height: 32px; border: 3px solid var(--color-border); border-top-color: var(--color-accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+.spinner { width: 32px; height: 32px; border: 3px solid var(--glass-border); border-top-color: var(--color-accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .modal-error { padding: 64px; text-align: center; color: var(--color-danger); }
 .modal-body { flex: 1; overflow: auto; padding: var(--space-md); }
 .modal-body canvas { display: block; margin: 0 auto; }
-.modal-footer { display: flex; align-items: center; justify-content: center; gap: var(--space-md); padding: var(--space-md); border-top: 1px solid var(--color-border); }
-.modal-footer button { padding: 6px 16px; background: var(--color-surface); color: var(--color-text); border-radius: var(--radius-sm); font-size: 0.85rem; }
-.modal-footer button:hover:not(:disabled) { background: var(--color-border); }
+.modal-footer { display: flex; align-items: center; justify-content: center; gap: var(--space-md); padding: var(--space-md); border-top: 1px solid var(--glass-border); }
+.modal-footer button { padding: 6px 16px; background: rgba(255, 255, 255, 0.5); color: var(--color-text); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); font-size: 0.85rem; }
+.modal-footer button:hover:not(:disabled) { background: rgba(50, 130, 184, 0.1); }
 .modal-footer button:disabled { opacity: 0.4; cursor: default; }
 .page-info { font-size: 0.85rem; color: var(--color-text-secondary); }
 </style>

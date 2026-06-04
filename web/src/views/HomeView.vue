@@ -9,11 +9,14 @@
         @select="activeCategory = $event"
       />
       <main class="content">
-        <FileGrid
-          :files="filteredFiles"
-          :get-category-name="getCategoryName"
-          @preview="openPreview"
-        />
+        <Transition name="content-swap" mode="out-in">
+          <FileGrid
+            :key="activeCategory + searchQuery"
+            :files="filteredFiles"
+            :get-category-name="getCategoryName"
+            @preview="openPreview"
+          />
+        </Transition>
       </main>
     </div>
     <PdfPreviewModal
@@ -23,6 +26,13 @@
       @close="previewVisible = false"
     />
     <ContributeModal :visible="showContribute" @close="showContribute = false" />
+    <footer class="app-footer">
+      <img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fbrainwangs.github.io%2FQLU_FinalExamPaper&count_bg=%233282b8&title_bg=%230f4c75&title=Visitors&edge_flat=false"
+        alt="visitor count"
+        class="visitor-badge"
+      />
+    </footer>
   </div>
 </template>
 
@@ -83,5 +93,23 @@ onMounted(async () => {
   flex: 1;
   padding: var(--space-lg);
   overflow-y: auto;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-md);
+  margin-top: auto;
+}
+
+.visitor-badge {
+  height: 20px;
+  opacity: 0.7;
+  transition: opacity var(--duration-fast);
+}
+
+.visitor-badge:hover {
+  opacity: 1;
 }
 </style>

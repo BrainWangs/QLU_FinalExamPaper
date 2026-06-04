@@ -67,14 +67,15 @@ const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.file.path}`)
 .card-meta { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
 
 .card-category {
-  font-size: 0.75rem;
-  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-accent);
   background: var(--color-accent-light);
   padding: 2px 8px;
   border-radius: 6px;
 }
 
-.card-size { font-size: 0.8rem; color: #fff; }
+.card-size { font-size: 0.8rem; color: #D1d1d9; }
 
 .card-actions { display: flex; gap: var(--space-sm); margin-top: auto; }
 
