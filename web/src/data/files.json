@@ -364,5 +364,32 @@
     "size": 4694894,
     "ext": "pdf",
     "addedAt": "2026-06-02T00:00:00.000Z"
+  },
+  {
+    "id": "fmpz9s0wbfnie",
+    "filename": "24-25-2-无线传感器网络.pdf",
+    "categoryId": "iot",
+    "path": "物联网工程/24-25-2-无线传感器网络.pdf",
+    "size": 261892,
+    "ext": "pdf",
+    "addedAt": "2026-06-04T09:05:08.747Z"
+  },
+  {
+    "id": "fmpz9s0wc1els",
+    "filename": "24-25-2-无线传感器网络参考答案.pdf",
+    "categoryId": "iot",
+    "path": "物联网工程/24-25-2-无线传感器网络参考答案.pdf",
+    "size": 588057,
+    "ext": "pdf",
+    "addedAt": "2026-06-04T09:05:08.748Z"
+  },
+  {
+    "id": "fmpz9s0wci3wb",
+    "filename": "24-25-2传感器与检测技术 题库.pdf",
+    "categoryId": "iot",
+    "path": "物联网工程/24-25-2传感器与检测技术 题库.pdf",
+    "size": 904666,
+    "ext": "pdf",
+    "addedAt": "2026-06-04T09:05:08.748Z"
   }
 ]
