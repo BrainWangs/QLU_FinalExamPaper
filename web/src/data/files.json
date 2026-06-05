@@ -391,5 +391,320 @@
     "size": 904666,
     "ext": "pdf",
     "addedAt": "2026-06-04T09:05:08.748Z"
+  },
+  {
+    "id": "fmq0gp7wa64r3",
+    "filename": "21-22 单片机原理及应用.zip",
+    "categoryId": "iot",
+    "path": "材料科学与工程/21-22 单片机原理及应用.zip",
+    "size": 1874140,
+    "ext": "zip",
+    "addedAt": "2026-06-05T05:06:41.338Z"
+  },
+  {
+    "id": "fmq0gp7z6sn5t",
+    "filename": "22-23 单片机原理及应用.zip",
+    "categoryId": "iot",
+    "path": "材料科学与工程/22-23 单片机原理及应用.zip",
+    "size": 3581194,
+    "ext": "zip",
+    "addedAt": "2026-06-05T05:06:41.442Z"
+  },
+  {
+    "id": "fmq0gp801jhy6",
+    "filename": "23-24 单片机原理及应用.pdf",
+    "categoryId": "iot",
+    "path": "材料科学与工程/23-24 单片机原理及应用.pdf",
+    "size": 579794,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:06:41.473Z"
+  },
+  {
+    "id": "fmq0gqlctcf22",
+    "filename": "17-18-2 物理Ⅱ-试卷A.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/17-18-2 物理Ⅱ-试卷A.pdf",
+    "size": 376446,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.437Z"
+  },
+  {
+    "id": "fmq0gqldb4yso",
+    "filename": "17-18-2 物理Ⅱ-试卷A答案.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/17-18-2 物理Ⅱ-试卷A答案.pdf",
+    "size": 271822,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.455Z"
+  },
+  {
+    "id": "fmq0gqle0bfgw",
+    "filename": "17-18-2 物理Ⅱ-试卷B.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/17-18-2 物理Ⅱ-试卷B.pdf",
+    "size": 323676,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.480Z"
+  },
+  {
+    "id": "fmq0gqliee6pf",
+    "filename": "17-18-2 物理Ⅱ-试卷B答案.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/17-18-2 物理Ⅱ-试卷B答案.pdf",
+    "size": 233762,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.638Z"
+  },
+  {
+    "id": "fmq0gqlivj2xq",
+    "filename": "18-19-1 大学物理II.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/18-19-1 大学物理II.pdf",
+    "size": 286171,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.655Z"
+  },
+  {
+    "id": "fmq0gqljxiot3",
+    "filename": "19-20 大学物理-期末试卷A卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/19-20 大学物理-期末试卷A卷.pdf",
+    "size": 2122081,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.693Z"
+  },
+  {
+    "id": "fmq0gqlkcuvhz",
+    "filename": "19-20-2 中国近现代史纲要-期末试卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/19-20-2 中国近现代史纲要-期末试卷.pdf",
+    "size": 119196,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.708Z"
+  },
+  {
+    "id": "fmq0gqlljlph8",
+    "filename": "20-21 大学物理2-A卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/20-21 大学物理2-A卷.pdf",
+    "size": 1767032,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.751Z"
+  },
+  {
+    "id": "fmq0gqlmp9d4k",
+    "filename": "20-21 大学物理2-B卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/20-21 大学物理2-B卷.pdf",
+    "size": 1658150,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.793Z"
+  },
+  {
+    "id": "fmq0gqlnwt2eh",
+    "filename": "20-21-2 物理II-B答案.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/20-21-2 物理II-B答案.pdf",
+    "size": 437907,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.836Z"
+  },
+  {
+    "id": "fmq0gqlqgmbk2",
+    "filename": "21-22 大学物理2-A卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/21-22 大学物理2-A卷.pdf",
+    "size": 1511302,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.928Z"
+  },
+  {
+    "id": "fmq0gqlri72bi",
+    "filename": "21-22 大学物理-期末试卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/21-22 大学物理-期末试卷.pdf",
+    "size": 347692,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:45.966Z"
+  },
+  {
+    "id": "fmq0gqlsgsrbc",
+    "filename": "21-22-1 大学物理II-A1卷+答案.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/21-22-1 大学物理II-A1卷+答案.pdf",
+    "size": 919110,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:46.000Z"
+  },
+  {
+    "id": "fmq0gqltc2wtx",
+    "filename": "21-22-1 大学物理II-A卷+答案.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/21-22-1 大学物理II-A卷+答案.pdf",
+    "size": 817131,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:46.032Z"
+  },
+  {
+    "id": "fmq0gqlu7vyrn",
+    "filename": "22-23-1 大学物理II 期末试卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/22-23-1 大学物理II 期末试卷.pdf",
+    "size": 243236,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:46.063Z"
+  },
+  {
+    "id": "fmq0gqlv3fbuo",
+    "filename": "22-23-2 中国近现代史纲要-期末试卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/22-23-2 中国近现代史纲要-期末试卷.pdf",
+    "size": 177707,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:07:46.095Z"
+  },
+  {
+    "id": "fmq0gr346pvpx",
+    "filename": "24-25-1 Python程序设计基础.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础.pdf",
+    "size": 325804,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.454Z"
+  },
+  {
+    "id": "fmq0gr34tb0vv",
+    "filename": "24-25-1 Python程序设计基础1组-试卷A.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础1组-试卷A.pdf",
+    "size": 353334,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.477Z"
+  },
+  {
+    "id": "fmq0gr35rs3yr",
+    "filename": "24-25-1 Python程序设计基础2组-试卷A.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础2组-试卷A.pdf",
+    "size": 315901,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.511Z"
+  },
+  {
+    "id": "fmq0gr36e9vir",
+    "filename": "24-25-1 Python程序设计基础3组-试卷A.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础3组-试卷A.pdf",
+    "size": 249670,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.534Z"
+  },
+  {
+    "id": "fmq0gr3710h1d",
+    "filename": "24-25-1 Python程序设计基础4组-试卷A.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础4组-试卷A.pdf",
+    "size": 272269,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.557Z"
+  },
+  {
+    "id": "fmq0gr37v6o91",
+    "filename": "24-25-1 Python程序设计基础计科23-3-1组-试卷.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础计科23-3-1组-试卷.pdf",
+    "size": 267861,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.587Z"
+  },
+  {
+    "id": "fmq0gr38nasah",
+    "filename": "24-25-1 Python程序设计基础计科23-3-1组-试卷答案.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础计科23-3-1组-试卷答案.pdf",
+    "size": 302754,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.615Z"
+  },
+  {
+    "id": "fmq0gr39b4iqz",
+    "filename": "24-25-1 Python程序设计基础计科23-3-2组-试卷.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础计科23-3-2组-试卷.pdf",
+    "size": 113072,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.639Z"
+  },
+  {
+    "id": "fmq0gr39ydvl8",
+    "filename": "24-25-1 Python程序设计基础计科23-3-2组-试卷答案.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础计科23-3-2组-试卷答案.pdf",
+    "size": 178023,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.662Z"
+  },
+  {
+    "id": "fmq0gr3aqkiah",
+    "filename": "24-25-1 Python程序设计基础计科23-3-3组-试卷.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础计科23-3-3组-试卷.pdf",
+    "size": 258476,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.690Z"
+  },
+  {
+    "id": "fmq0gr3bg3ntw",
+    "filename": "24-25-1 Python程序设计基础计科23-3-4组-试卷.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础计科23-3-4组-试卷.pdf",
+    "size": 323142,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.716Z"
+  },
+  {
+    "id": "fmq0gr3c5bwwd",
+    "filename": "24-25-1 Python程序设计基础-试卷答案.pdf",
+    "categoryId": "cs",
+    "path": "计算机科学与技术/24-25-1 Python程序设计基础-试卷答案.pdf",
+    "size": 226207,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:08:08.741Z"
+  },
+  {
+    "id": "fmq0gu52wdjz8",
+    "filename": "20-21-1高数Ⅰ 上.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/20-21-1高数Ⅰ 上.pdf",
+    "size": 257845,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:10:30.968Z"
+  },
+  {
+    "id": "fmq0gu53ey7d4",
+    "filename": "20-21-1高数Ⅱ 上.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/20-21-1高数Ⅱ 上.pdf",
+    "size": 257049,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:10:30.986Z"
+  },
+  {
+    "id": "fmq0gu55z6ujv",
+    "filename": "22-23 高等数学24套.zip",
+    "categoryId": "general",
+    "path": "公共基础课/22-23 高等数学24套.zip",
+    "size": 5657074,
+    "ext": "zip",
+    "addedAt": "2026-06-05T05:10:31.079Z"
+  },
+  {
+    "id": "fmq0gu56oz9d8",
+    "filename": "22-23-1数学1(上)试题A卷.pdf",
+    "categoryId": "general",
+    "path": "公共基础课/22-23-1数学1(上)试题A卷.pdf",
+    "size": 176346,
+    "ext": "pdf",
+    "addedAt": "2026-06-05T05:10:31.104Z"
   }
 ]
