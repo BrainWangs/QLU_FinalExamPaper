@@ -6,8 +6,6 @@
 
 [网站](https://brainwangs.github.io/QLU_FinalExamPaper) · [试卷文件](./assets) · [投稿](#投稿)
 
-![Visitors](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fbrainwangs.github.io%2FQLU_FinalExamPaper&count_bg=%233282b8&title_bg=%230f4c75&title=Visitors&edge_flat=false)
-
 
 ---
 

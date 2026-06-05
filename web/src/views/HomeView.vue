@@ -31,7 +31,6 @@
       @close="previewVisible = false"
     />
     <ContributeModal :visible="showContribute" @close="showContribute = false" />
-    <PageFooter />
   </div>
 </template>
 
@@ -42,7 +41,6 @@ import CategorySidebar from '@/components/CategorySidebar.vue'
 import FileGrid from '@/components/FileGrid.vue'
 import PdfPreviewModal from '@/components/PdfPreviewModal.vue'
 import ContributeModal from '@/components/ContributeModal.vue'
-import PageFooter from '@/components/PageFooter.vue'
 import { useFileFilter } from '@/composables/useFileFilter'
 import { loadCategories, loadFiles } from '@/utils/data'
 import type { FileEntry, Category } from '@/types'
