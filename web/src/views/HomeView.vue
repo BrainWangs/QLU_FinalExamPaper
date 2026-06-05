@@ -11,13 +11,18 @@
       <main class="content">
         <Transition name="content-swap" mode="out-in">
           <FileGrid
-            :key="activeCategory + searchQuery"
-            :files="filteredFiles"
+            :key="activeCategory + searchQuery + page"
+            :files="pagedFiles"
             :get-category-name="getCategoryName"
             @preview="openPreview"
           />
         </Transition>
       </main>
+    </div>
+    <div v-if="totalPages > 1" class="pagination">
+      <button :disabled="page <= 1" @click="page--">上一页</button>
+      <span class="page-info">{{ page }} / {{ totalPages }}</span>
+      <button :disabled="page >= totalPages" @click="page++">下一页</button>
     </div>
     <PdfPreviewModal
       :visible="previewVisible"
@@ -26,23 +31,18 @@
       @close="previewVisible = false"
     />
     <ContributeModal :visible="showContribute" @close="showContribute = false" />
-    <footer class="app-footer">
-      <img
-        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fbrainwangs.github.io%2FQLU_FinalExamPaper&count_bg=%233282b8&title_bg=%230f4c75&title=Visitors&edge_flat=false"
-        alt="visitor count"
-        class="visitor-badge"
-      />
-    </footer>
+    <PageFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import Header from '@/components/Header.vue'
 import CategorySidebar from '@/components/CategorySidebar.vue'
 import FileGrid from '@/components/FileGrid.vue'
 import PdfPreviewModal from '@/components/PdfPreviewModal.vue'
 import ContributeModal from '@/components/ContributeModal.vue'
+import PageFooter from '@/components/PageFooter.vue'
 import { useFileFilter } from '@/composables/useFileFilter'
 import { loadCategories, loadFiles } from '@/utils/data'
 import type { FileEntry, Category } from '@/types'
@@ -61,9 +61,28 @@ const {
 const previewVisible = ref(false)
 const previewFile = ref<FileEntry | null>(null)
 const showContribute = ref(false)
+const page = ref(1)
+const windowWidth = ref(window.innerWidth)
+
+function onResize() { windowWidth.value = window.innerWidth }
+
+const colsPerRow = computed(() => {
+  if (windowWidth.value <= 640) return 1
+  if (windowWidth.value <= 1024) return 2
+  return 3
+})
+
+const perPage = computed(() => colsPerRow.value * 4)
+const totalPages = computed(() => Math.ceil(filteredFiles.value.length / perPage.value) || 1)
+
+const pagedFiles = computed(() => {
+  const start = (page.value - 1) * perPage.value
+  return filteredFiles.value.slice(start, start + perPage.value)
+})
 
 function onSearch(query: string) {
   searchQuery.value = query
+  page.value = 1
 }
 
 function openPreview(file: FileEntry) {
@@ -71,10 +90,15 @@ function openPreview(file: FileEntry) {
   previewVisible.value = true
 }
 
+watch(activeCategory, () => { page.value = 1 })
+
 onMounted(async () => {
   categories.value = await loadCategories()
   files.value = await loadFiles()
+  window.addEventListener('resize', onResize)
 })
+
+onUnmounted(() => window.removeEventListener('resize', onResize))
 </script>
 
 <style scoped>
@@ -95,21 +119,40 @@ onMounted(async () => {
   overflow-y: auto;
 }
 
-.app-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-md);
-  margin-top: auto;
+/* ── Mobile (< 641px) ── */
+@media (max-width: 640px) {
+  .main-area {
+    flex-direction: column;
+  }
+
+  .content {
+    padding: var(--space-md);
+  }
 }
 
-.visitor-badge {
-  height: 20px;
-  opacity: 0.7;
-  transition: opacity var(--duration-fast);
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-md); padding: var(--space-md) var(--space-lg);
 }
 
-.visitor-badge:hover {
-  opacity: 1;
+.pagination button {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
+  font-size: 0.85rem; font-weight: 700; color: var(--color-text);
+  transition: all var(--transition-fast);
+}
+
+.pagination button:hover:not(:disabled) { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+.pagination button:disabled { opacity: 0.35; cursor: default; }
+
+.page-info { font-size: 0.85rem; font-weight: 700; color: var(--color-text-secondary); }
+
+/* ── Tablet (641px - 1024px) ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .content {
+    padding: var(--space-md);
+  }
 }
 </style>

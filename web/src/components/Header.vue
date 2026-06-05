@@ -174,4 +174,59 @@ defineEmits<{
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px var(--color-accent-light);
 }
+
+/* ── Mobile (< 641px) ── */
+@media (max-width: 640px) {
+  .header {
+    padding: var(--space-md) var(--space-md) var(--space-sm);
+  }
+
+  .header-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .contribute-btn {
+    position: static;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+
+  .header-inner {
+    width: 100%;
+    order: 1;
+    margin-top: var(--space-sm);
+  }
+
+  .brand-title { font-size: 1.15rem; }
+
+  .brand-sub { font-size: 0.8rem; }
+
+  .header-actions { position: static; }
+
+  .action-link { padding: 6px 10px; font-size: 0.75rem; }
+
+  .search-wrap { max-width: 100%; }
+
+  .search-input { padding: 10px 12px 10px 38px; font-size: 0.85rem; }
+}
+
+/* ── Tablet (641px - 1024px) ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .header {
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+  }
+
+  .brand-title {
+    font-size: 1.5rem;
+  }
+
+  .search-wrap {
+    max-width: 420px;
+  }
+}
 </style>

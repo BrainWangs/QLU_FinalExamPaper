@@ -130,4 +130,65 @@ watch(() => props.visible, async (v) => {
 .modal-footer button:hover:not(:disabled) { background: rgba(50, 130, 184, 0.1); }
 .modal-footer button:disabled { opacity: 0.4; cursor: default; }
 .page-info { font-size: 0.85rem; color: var(--color-text-secondary); }
+
+/* ── Mobile (< 641px): full-width modal ── */
+@media (max-width: 640px) {
+  .overlay {
+    padding: var(--space-sm);
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .modal-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .modal-title {
+    font-size: 0.9rem;
+  }
+
+  .btn-dl {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .btn-close {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+  }
+
+  .modal-body {
+    padding: var(--space-sm);
+  }
+
+  .modal-footer {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+  }
+
+  .modal-footer button {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+
+  .modal-loading {
+    padding: 32px;
+  }
+
+  .modal-error {
+    padding: 32px;
+  }
+}
+
+/* ── Tablet (641px - 1024px) ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .modal {
+    max-width: 90vw;
+  }
+}
 </style>

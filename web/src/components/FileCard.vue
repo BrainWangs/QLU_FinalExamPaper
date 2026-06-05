@@ -94,4 +94,14 @@ const fileUrl = computed(() => `${import.meta.env.BASE_URL}${props.file.path}`)
 
 .btn-download { background: var(--color-accent); color: #fff; display: block; }
 .btn-download:hover { background: var(--color-accent-hover); transform: scale(1.02); }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .card { padding: var(--space-md); gap: var(--space-xs); border-radius: var(--radius-md); }
+  .card-icon { font-size: 1.5rem; }
+  .card-name { font-size: 0.82rem; }
+  .card-category { font-size: 0.7rem; }
+  .card-size { font-size: 0.7rem; }
+  .btn { padding: 6px 10px; font-size: 0.78rem; border-radius: var(--radius-sm); }
+}
 </style>

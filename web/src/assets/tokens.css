@@ -32,8 +32,33 @@
   --space-xl: 32px;
   --space-2xl: 48px;
 
+  --sidebar-width: 220px;
+
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
+}
+
+/* ── Responsive base adjustments ── */
+@media (max-width: 640px) {
+  :root {
+    --space-sm: 6px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+  }
+
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --sidebar-width: 180px;
+    --space-lg: 20px;
+    --space-xl: 28px;
+  }
 }
 
 *, *::before, *::after {
@@ -48,13 +73,27 @@ html {
   color: var(--color-text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
 body {
   min-height: 100vh;
-  background:
-    linear-gradient(135deg, rgba(232, 240, 248, 0.45) 0%, rgba(240, 245, 249, 0.45) 40%, rgba(232, 239, 246, 0.45) 100%),
-    url('./bg.png') center / cover no-repeat fixed;
+  position: relative;
+  /* 渐变遮罩层：调整 rgba 第四个值 (0.45) 改变遮盖强度，越大图片越淡 */
+  background: linear-gradient(135deg, rgba(232, 240, 248, 0.45) 0%, rgba(240, 245, 249, 0.45) 40%, rgba(232, 239, 246, 0.45) 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url('./bg.png') center / cover no-repeat;
+  /* ── 背景图片可调参数 ── */
+  /* 模糊强度：0 = 清晰，px 值越大越模糊（推荐 0~10px） */
+  /*filter: blur(2px);*/
+  /* 透明度：0 = 完全透明，1 = 完全不透明 */
+  opacity: 0.6;
+  /* 亮度：1 = 原样，<1 变暗，>1 变亮 */
+   filter: blur(2px) brightness(1.2);  /* 取消注释可同时调模糊+亮度 */
 }
 
 a { color: var(--color-accent); text-decoration: none; }
@@ -82,3 +121,54 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; }
 .contribute-modal-enter-from .modal { opacity: 0; transform: scale(0.85); }
 .contribute-modal-leave-active .modal { transition: opacity 180ms ease-in, transform 180ms ease-in; }
 .contribute-modal-leave-to .modal { opacity: 0; transform: scale(0.9); }
+
+/* ── Category overflow popover ── */
+.popover-enter-active { transition: opacity 200ms ease; }
+.popover-enter-active .popover { transition: transform 250ms cubic-bezier(0.34,1.56,0.64,1), opacity 250ms ease; }
+.popover-leave-active { transition: opacity 180ms ease; }
+.popover-leave-active .popover { transition: transform 180ms ease-in, opacity 150ms ease; }
+.popover-enter-from { opacity: 0; }
+.popover-enter-from .popover { opacity: 0; transform: scale(0.9) translateY(-8px); }
+.popover-leave-to { opacity: 0; }
+.popover-leave-to .popover { opacity: 0; transform: scale(0.95) translateY(-4px); }
+
+.popover-overlay {
+  position: fixed; inset: 0; z-index: 150;
+  background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 80px;
+}
+
+.popover {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-sm);
+  width: 280px; max-width: 90vw;
+}
+
+.popover-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 0.9rem; font-weight: 700;
+  color: var(--color-text-secondary);
+  transition: background var(--transition-fast);
+}
+.popover-item:hover { background: rgba(50, 130, 184, 0.08); }
+
+.popover-item .count {
+  font-size: 0.75rem; color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: 2px 8px; border-radius: 10px;
+}
+
+.popover-item.active {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.popover-list {
+  list-style: none;
+}

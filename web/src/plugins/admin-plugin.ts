@@ -150,6 +150,16 @@ export function adminPlugin(): Plugin {
             return send({ message: 'Missing file, filename, or categoryId' }, 400)
           }
 
+          // Duplicate check: same filename in same category
+          const existing = readJson('files.json')
+          const dup = existing.find(
+            (f: { filename: string; categoryId: string }) =>
+              f.filename === filename && f.categoryId === categoryId,
+          )
+          if (dup) {
+            return send({ message: `文件 "${filename}" 已存在于该学科中` }, 409)
+          }
+
           const ext = extname(filename).slice(1).toLowerCase()
           const catDir = getCatDir(categoryId)
           const categoryDir = resolve(ASSETS_DIR, catDir)
