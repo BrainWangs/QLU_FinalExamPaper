@@ -74,6 +74,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { adminLoadCategories, adminUploadFile } from '@/utils/admin-api'
+import { clearCache } from '@/utils/data'
 import type { Category } from '@/types'
 
 interface UploadResult {
@@ -156,6 +157,7 @@ async function handleUpload() {
   }
 
   uploading.value = false
+  clearCache()
 
   // Summary message
   if (failCount === 0) {
@@ -206,12 +208,10 @@ async function handleUpload() {
   font-family: inherit;
 }
 
-/* ── Glass card shared ── */
+/* ── Card shared ── */
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
@@ -262,7 +262,7 @@ async function handleUpload() {
   justify-content: space-between;
   padding: 6px 10px;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--color-bg-alt, #f1f5f9);
   font-size: 0.85rem;
 }
 

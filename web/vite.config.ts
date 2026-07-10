@@ -76,9 +76,9 @@ function autoDiscoverPlugin(): Plugin {
   }
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [vue(), adminPlugin(), autoDiscoverPlugin(), spaFallbackPlugin()],
-  base: '/QLU_FinalExamPaper/',
+  base: mode === 'electron' ? '/' : '/QLU_FinalExamPaper/',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
@@ -99,4 +99,4 @@ export default defineConfig({
       allow: ['..'],
     },
   },
-})
+}))

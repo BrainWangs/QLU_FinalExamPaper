@@ -16,6 +16,47 @@
     </script>
   </head>
   <body>
+    <!-- Global cursor glow -->
+    <div id="cursor-glow" style="position:fixed;z-index:0;pointer-events:none;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(199,210,254,.5) 0%,rgba(221,214,254,.3) 30%,rgba(165,243,252,.15) 55%,transparent 70%);transform:translate(-50%,-50%);opacity:0;transition:opacity .4s;"></div>
+    <!-- Ambient background orbs -->
+    <div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden" id="bg-orbs">
+      <div class="bg-orb" style="position:absolute;border-radius:50%;filter:blur(100px);width:500px;height:500px;background:#c7d2fe;top:-10%;left:-8%;opacity:.4;transition:transform 1.5s cubic-bezier(0,0,.2,1)"></div>
+      <div class="bg-orb" style="position:absolute;border-radius:50%;filter:blur(100px);width:400px;height:400px;background:#ddd6fe;top:45%;right:-10%;opacity:.35;transition:transform 1.5s cubic-bezier(0,0,.2,1)"></div>
+      <div class="bg-orb" style="position:absolute;border-radius:50%;filter:blur(100px);width:350px;height:350px;background:#a5f3fc;bottom:-8%;left:25%;opacity:.35;transition:transform 1.5s cubic-bezier(0,0,.2,1)"></div>
+    </div>
+    <script>
+      // Global cursor glow + orb parallax (runs before Vue mounts)
+      (function() {
+        var glow = document.getElementById('cursor-glow');
+        var orbs = document.querySelectorAll('#bg-orbs .bg-orb');
+        var mouseX = -500, mouseY = -500, targetX = -500, targetY = -500;
+
+        document.addEventListener('mousemove', function(e) {
+          targetX = e.clientX;
+          targetY = e.clientY;
+          glow.style.opacity = '1';
+          // Orb parallax
+          var cx = e.clientX / window.innerWidth - 0.5;
+          var cy = e.clientY / window.innerHeight - 0.5;
+          if (orbs[0]) orbs[0].style.transform = 'translate(' + (cx * 25) + 'px, ' + (cy * 20) + 'px)';
+          if (orbs[1]) orbs[1].style.transform = 'translate(' + (cx * -18) + 'px, ' + (cy * -25) + 'px)';
+          if (orbs[2]) orbs[2].style.transform = 'translate(' + (cx * 15) + 'px, ' + (cy * -18) + 'px)';
+        });
+
+        document.addEventListener('mouseleave', function() {
+          glow.style.opacity = '0';
+        });
+
+        function animate() {
+          mouseX += (targetX - mouseX) * 0.08;
+          mouseY += (targetY - mouseY) * 0.08;
+          glow.style.left = mouseX + 'px';
+          glow.style.top  = mouseY + 'px';
+          requestAnimationFrame(animate);
+        }
+        animate();
+      })();
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

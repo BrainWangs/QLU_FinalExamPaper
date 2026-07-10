@@ -1,40 +1,38 @@
 <template>
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2 class="sidebar-title">学科分类</h2>
+      <span class="sidebar-title">学科分类</span>
     </div>
-    <ul ref="categoryListRef" class="category-list">
-      <!-- 全部 - always visible (never overflows) -->
+    <ul ref="categoryListRef" class="category-list" @click="onCategoryClick">
       <li
         ref="allPillRef"
         :class="['category-item', { active: active === 'all' }]"
-        @click="$emit('select', 'all')"
+        data-id="all"
       >
-        <span class="category-name">全部</span>
+        <span class="cat-dot all"></span>
+        <span class="cat-name">全部</span>
         <span class="category-count">{{ totalCount }}</span>
       </li>
-      <!-- Regular category pills -->
       <li
         v-for="(cat, idx) in categories"
         :key="cat.id"
         :ref="(el: unknown) => setPillRef(idx, el as HTMLElement | null)"
         :class="['category-item', { active: active === cat.id, 'overflow-hidden': isOverflow(idx) }]"
-        @click="$emit('select', cat.id)"
+        :data-id="cat.id"
       >
-        <span class="category-name">{{ cat.name }}</span>
+        <span :class="['cat-dot', getCatSlug(cat.name)]"></span>
+        <span class="cat-name">{{ cat.name }}</span>
         <span class="category-count">{{ cat.count }}</span>
       </li>
-      <!-- "+N" overflow button (always in DOM for measurement, hidden when no overflow) -->
       <li
         ref="overflowBtnRef"
         :class="['category-item', 'overflow-btn', { 'overflow-hidden': overflowCount === 0 }]"
-        @click="onOverflowClick"
+        @click.stop="onOverflowClick"
       >
         +{{ overflowCount }}
       </li>
     </ul>
 
-    <!-- Popover with hidden categories (teleported to body) -->
     <Teleport to="body">
       <Transition name="popover">
         <div v-if="showPopover" class="popover-overlay" @click.self="showPopover = false">
@@ -73,24 +71,23 @@ const props = defineProps<{
   totalCount: number
 }>()
 
-const emit = defineEmits<{
-  select: [id: string]
-}>()
+const emit = defineEmits<{ select: [id: string] }>()
 
 const showPopover = ref(false)
-
-// ---- Overflow state (mobile only) ----
 const categoryListRef = ref<HTMLElement | null>(null)
 const allPillRef = ref<HTMLElement | null>(null)
 const overflowBtnRef = ref<HTMLElement | null>(null)
 const pillRefs = ref<(HTMLElement | null)[]>([])
-
-// How many regular categories are visible in the pill row
 const visibleCount = ref(props.categories.length)
+const overflowCount = computed(() => Math.max(0, props.categories.length - visibleCount.value))
 
-const overflowCount = computed(() =>
-  Math.max(0, props.categories.length - visibleCount.value),
-)
+function getCatSlug(name: string): string {
+  const map: Record<string, string> = {
+    '高等数学': 'math', '线性代数': 'algebra', '大学物理': 'physics',
+    '数据结构': 'ds', '操作系统': 'os', '计算机网络': 'network',
+  }
+  return map[name] ?? 'math'
+}
 
 function setPillRef(idx: number, el: HTMLElement | null): void {
   pillRefs.value[idx] = el
@@ -106,95 +103,79 @@ function selectCat(id: string): void {
 }
 
 function onOverflowClick(): void {
-  if (overflowCount.value > 0) {
-    showPopover.value = !showPopover.value
-  }
+  if (overflowCount.value > 0) showPopover.value = !showPopover.value
 }
 
-// ---- Measurement & overflow calculation (mobile only) ----
-const PILL_GAP = 6 // --space-sm on mobile resolves to 6px
+// Click handler: ripple animation + emit select
+function onCategoryClick(e: MouseEvent) {
+  const item = (e.target as HTMLElement).closest('.category-item:not(.overflow-btn)') as HTMLElement | null
+  if (!item) return
+
+  const id = item.dataset.id
+  if (!id) return
+
+  // Emit selection
+  emit('select', id)
+
+  // Ripple (viewport-relative to avoid container sizing issues)
+  const ripple = document.createElement('span')
+  ripple.className = 'cat-ripple'
+  const size = Math.max(item.offsetWidth, item.offsetHeight)
+  ripple.style.width = ripple.style.height = size + 'px'
+  ripple.style.left = (e.clientX - size / 2) + 'px'
+  ripple.style.top = (e.clientY - size / 2) + 'px'
+  document.body.appendChild(ripple)
+  ripple.addEventListener('animationend', () => ripple.remove())
+}
+
+// Overflow measurement (mobile)
+const PILL_GAP = 6
 const OVERFLOW_BTN_MIN_WIDTH = 52
 
 function recalc(): void {
-  // Only apply overflow logic on mobile viewports
   if (window.innerWidth > 640) {
     visibleCount.value = props.categories.length
     return
   }
-
   const container = categoryListRef.value
   if (!container) return
-
   const containerWidth = container.clientWidth
   const allWidth = allPillRef.value?.offsetWidth ?? 0
-  // Slice to current category count — stale refs from a previous longer list linger as nulls
-  const widths = pillRefs.value
-    .slice(0, props.categories.length)
-    .map((el) => el?.offsetWidth ?? 0)
-
+  const widths = pillRefs.value.slice(0, props.categories.length).map(el => el?.offsetWidth ?? 0)
   if (widths.length === 0 || allWidth === 0) return
-  // If any pill width is 0 the refs aren't fully populated yet
-  if (widths.some((w) => w === 0)) return
+  if (widths.some(w => w === 0)) return
 
-  // Use actual button width for accurate measurement, fallback to conservative estimate
-  const btnWidth =
-    overflowBtnRef.value?.offsetWidth ?? OVERFLOW_BTN_MIN_WIDTH
-
+  const btnWidth = overflowBtnRef.value?.offsetWidth ?? OVERFLOW_BTN_MIN_WIDTH
   let used = allWidth
   let count = 0
-
   for (let i = 0; i < widths.length; i++) {
     const next = used + PILL_GAP + widths[i]
     const remaining = widths.length - i - 1
-
     if (remaining > 0) {
-      // There are more pills after this one — must reserve room for "+N"
-      if (next + PILL_GAP + btnWidth <= containerWidth) {
-        used = next
-        count++
-      } else {
-        break
-      }
+      if (next + PILL_GAP + btnWidth <= containerWidth) { used = next; count++ }
+      else break
     } else {
-      // Last category — no "+N" needed if it fits alone
-      if (next <= containerWidth) {
-        count++
-      }
+      if (next <= containerWidth) count++
     }
   }
-
   visibleCount.value = count
 }
 
 let resizeObserver: ResizeObserver | null = null
-
 function setupObserver(): void {
-  if (resizeObserver) {
-    resizeObserver.disconnect()
-  }
-  resizeObserver = new ResizeObserver(() => {
-    recalc()
-  })
-  if (categoryListRef.value) {
-    resizeObserver.observe(categoryListRef.value)
-  }
+  if (resizeObserver) resizeObserver.disconnect()
+  resizeObserver = new ResizeObserver(() => recalc())
+  if (categoryListRef.value) resizeObserver.observe(categoryListRef.value)
 }
 
 onMounted(() => {
-  nextTick(() => {
-    recalc()
-    setupObserver()
-  })
+  nextTick(() => { recalc(); setupObserver() })
 })
 
-// Recalculate when categories data changes (e.g. after search filtering)
-watch(
-  () => props.categories,
-  () => {
-    visibleCount.value = props.categories.length
-    nextTick(() => recalc())
-  },
-)
+watch(() => props.categories, () => {
+  visibleCount.value = props.categories.length
+  nextTick(() => recalc())
+})
 
 onUnmounted(() => {
   resizeObserver?.disconnect()
@@ -204,185 +185,122 @@ onUnmounted(() => {
 
 <style scoped>
 .sidebar {
-  width: var(--sidebar-width);
-  flex-shrink: 0;
-  margin: var(--space-lg);
-  padding: var(--space-lg);
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  width: var(--sidebar-width); flex-shrink: 0;
+  position: sticky; top: 24px; align-self: flex-start;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  max-height: calc(100vh - 48px);
   overflow-y: auto;
-  align-self: flex-start;
-  position: sticky;
-  top: var(--space-lg);
 }
 
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.sidebar-header { padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--color-border-light); }
 
 .sidebar-title {
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
   color: var(--color-text-muted);
-  margin-bottom: var(--space-md);
 }
 
-.category-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.category-list { display: flex; flex-direction: column; gap: 4px; }
 
 .category-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-text-secondary);
-  transition: all var(--transition-fast);
+  font-size: .875rem; font-weight: 500; color: var(--color-text-secondary);
+  transition: all .2s var(--transition-fast);
+  position: relative; overflow: hidden;
+}
+.category-item:hover { background: #f8fafc; color: var(--color-text); }
+
+.category-item.active { background: var(--color-accent-subtle); color: #4338ca; font-weight: 600; }
+
+.cat-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  transition: all .25s var(--transition-fast);
+}
+.cat-dot.all     { background: var(--cat-math); }
+.cat-dot.math    { background: var(--cat-math); }
+.cat-dot.algebra { background: var(--cat-algebra); }
+.cat-dot.physics { background: var(--cat-physics); }
+.cat-dot.ds      { background: var(--cat-ds); }
+.cat-dot.os      { background: var(--cat-os); }
+.cat-dot.network { background: var(--cat-network); }
+
+.category-item.active .cat-dot {
+  width: 10px; height: 10px;
+  box-shadow: 0 0 0 4px rgba(99,102,241,.2);
 }
 
-.category-item:hover { background: rgba(50, 130, 184, 0.08); color: var(--color-text); }
-
-.category-item.active {
-  background: var(--color-accent-light);
-  color: var(--color-accent);
-  font-weight: 700;
-}
+.cat-name { flex: 1; }
 
 .category-count {
-  font-size: 0.8rem;
-  color: var(--color-accent);
-  background: var(--color-accent-light);
-  padding: 2px 8px;
-  border-radius: 10px;
+  font-size: .72rem; font-weight: 600;
+  color: var(--color-text-muted);
+  background: #f1f5f9;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  min-width: 26px; text-align: center;
+  transition: all .2s;
 }
-
 .category-item.active .category-count { background: var(--color-accent); color: #fff; }
-.category-item:first-child .category-count { background: rgba(50, 130, 184, 0.08); color: var(--color-text-secondary); }
-.category-item:first-child.active .category-count { background: var(--color-accent); color: #fff; }
 
-/* ---- Overflow hidden pills (visibility hidden + absolute to preserve offsetWidth) ---- */
-.overflow-hidden {
-  visibility: hidden;
-  position: absolute;
+/* Ripple (viewport-fixed so it never affects layout) */
+.cat-ripple {
+  position: fixed; border-radius: 50%; z-index: 300;
+  background: rgba(99,102,241,.2);
+  transform: scale(0); animation: ripple .6s cubic-bezier(0,0,.2,1);
   pointer-events: none;
-  transition: none;
 }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
 
-/* ---- "+N" overflow button ---- */
+/* Overflow */
+.overflow-hidden { visibility: hidden; position: absolute; pointer-events: none; transition: none; }
+
 .overflow-btn {
-  min-width: 48px;
-  justify-content: center;
-  background: rgba(50, 130, 184, 0.1);
-  color: var(--color-accent);
-  border: 1px solid rgba(50, 130, 184, 0.25);
+  min-width: 48px; justify-content: center;
+  background: rgba(99,102,241,.08); color: var(--color-accent);
+  border: 1px solid rgba(99,102,241,.2);
 }
+.overflow-btn:hover { background: rgba(99,102,241,.15); }
 
-.overflow-btn:hover {
-  background: rgba(50, 130, 184, 0.2);
-}
-
-/* ── Mobile (< 641px): overflow-aware pill row ── */
+/* ── Mobile ── */
 @media (max-width: 640px) {
   .sidebar {
-    width: auto;
-    margin: var(--space-md);
-    padding: var(--space-md);
-    box-sizing: border-box;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
-    position: static;
-    align-self: auto;
-    box-shadow: var(--shadow-md);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    width: 100%; position: static;
+    padding: 14px; border-radius: var(--radius-lg);
   }
-
-  .sidebar-title {
-    margin-bottom: var(--space-xs);
-    font-size: 0.7rem;
-  }
+  .sidebar-title { font-size: .65rem; }
+  .sidebar-header { padding-bottom: 10px; margin-bottom: 10px; }
 
   .category-list {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    gap: var(--space-sm);
-    padding: var(--space-sm) 0 0;
+    flex-direction: row; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+    gap: 8px; padding-bottom: 4px;
   }
-
   .category-item {
-    flex-shrink: 0;
-    padding: 6px 14px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    flex-shrink: 0; white-space: nowrap;
+    font-size: .8rem; padding: 8px 14px;
+    border: 1px solid var(--color-border-light); border-radius: var(--radius-full);
+    background: var(--color-surface); gap: 6px;
   }
-
-  .category-item:hover { background: rgba(50, 130, 184, 0.1); }
-
   .category-item.active {
-    background: var(--color-accent);
-    color: #fff;
-    border-color: var(--color-accent);
+    background: var(--color-accent); color: #fff; border-color: var(--color-accent);
   }
+  .category-item.active .cat-dot { background: #fff; box-shadow: none; width: 6px; height: 6px; }
+  .category-item.active .category-count { background: rgba(255,255,255,.25); color: #fff; }
+  .cat-dot { width: 6px; height: 6px; }
 
-  .category-count {
-    margin-left: 6px;
-    font-size: 0.7rem;
-    padding: 1px 6px;
-  }
-
-  .category-item:first-child .category-count {
-    background: var(--color-accent-light);
-    color: var(--color-text-secondary);
-  }
-
-  .category-item:first-child.active .category-count {
-    background: rgba(255, 255, 255, 0.3);
-    color: #fff;
-  }
-
-  /* "+N" button on mobile */
   .overflow-btn {
-    background: var(--color-accent);
-    color: #fff;
-    border-color: var(--color-accent);
-    font-weight: 800;
-    min-width: 44px;
+    background: var(--color-accent); color: #fff; border-color: var(--color-accent);
+    font-weight: 800; min-width: 44px;
   }
-
-  .overflow-btn:hover {
-    background: var(--color-accent-hover);
-    color: #fff;
-  }
+  .overflow-btn:hover { background: #4f46e5; }
 }
 
-/* ── Tablet (641px - 1024px): compact sidebar ── */
+/* ── Tablet ── */
 @media (min-width: 641px) and (max-width: 1024px) {
-  .sidebar {
-    margin: var(--space-md);
-    padding: var(--space-md);
-  }
-
-  .category-item {
-    padding: 8px 10px;
-    font-size: 0.82rem;
-  }
+  .sidebar { padding: 16px; }
+  .category-item { padding: 8px 10px; font-size: .82rem; }
 }
 </style>

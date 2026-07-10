@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
   },
 ]
 
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV || import.meta.env.MODE === 'electron') {
   routes.push({
     path: '/admin',
     component: () => import('@/views/admin/AdminLayout.vue'),

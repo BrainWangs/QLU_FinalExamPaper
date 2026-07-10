@@ -3,8 +3,27 @@ import type { Category, FileEntry } from '@/types'
 let cachedCategories: Category[] | null = null
 let cachedFiles: FileEntry[] | null = null
 
+const isElectron = import.meta.env.MODE === 'electron'
+
+async function fetchJson<T>(apiPath: string): Promise<T> {
+  const res = await fetch(`/__admin${apiPath}`)
+  if (!res.ok) throw new Error(`Failed to fetch ${apiPath}`)
+  return res.json()
+}
+
 export async function loadCategories(): Promise<Category[]> {
   if (cachedCategories) return cachedCategories
+
+  if (isElectron) {
+    try {
+      cachedCategories = await fetchJson<Category[]>('/categories')
+      return cachedCategories
+    } catch {
+      cachedCategories = []
+      return cachedCategories
+    }
+  }
+
   try {
     const mod = await import('@/data/categories.json')
     cachedCategories = mod.default as Category[]
@@ -17,6 +36,17 @@ export async function loadCategories(): Promise<Category[]> {
 
 export async function loadFiles(): Promise<FileEntry[]> {
   if (cachedFiles) return cachedFiles
+
+  if (isElectron) {
+    try {
+      cachedFiles = await fetchJson<FileEntry[]>('/files')
+      return cachedFiles
+    } catch {
+      cachedFiles = []
+      return cachedFiles
+    }
+  }
+
   try {
     const mod = await import('@/data/files.json')
     cachedFiles = mod.default as FileEntry[]

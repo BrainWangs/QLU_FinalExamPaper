@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { adminLoadFiles, adminLoadCategories, adminDeleteFile, adminSaveFiles } from '@/utils/admin-api'
+import { clearCache } from '@/utils/data'
 import type { FileEntry, Category } from '@/types'
 import { formatFileSize } from '@/utils/format'
 
@@ -58,6 +59,7 @@ const filtered = computed(() => {
 async function assignCategory(file: FileEntry, newCatId: string) {
   file.categoryId = newCatId
   await adminSaveFiles(files.value)
+  clearCache()
 }
 
 onMounted(async () => {
@@ -69,6 +71,7 @@ async function handleDelete(f: FileEntry) {
   if (!confirm(`确定删除 "${f.filename}"？此操作不可撤销。`)) return
   await adminDeleteFile(f.id, f.path)
   files.value = files.value.filter((x) => x.id !== f.id)
+  clearCache()
 }
 </script>
 

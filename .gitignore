@@ -1,4 +1,25 @@
 web/dist/
-/openspec/
+web/dist-electron/
+web/release/
+web/node_modules/
+
+# IDE
 /.idea/
+
+# AI assistant
 /.claude/
+CLAUDE.md
+design-preview.html
+
+# Environment
+web/.env.electron
+*.env
+*.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OpenSpec
+/openspec/
+/web/node_modules/

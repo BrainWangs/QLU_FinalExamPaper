@@ -1,0 +1,21 @@
+appId: io.github.brainwangs.qlu-exam-papers
+productName: 齐鲁工业大学期末试卷库
+directories:
+  output: release
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+extraResources:
+  - from: ../assets
+    to: assets
+  - from: src/data/categories.json
+    to: data/categories.json
+  - from: src/data/files.json
+    to: data/files.json
+win:
+  target: nsis
+  icon: build/icon.ico
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

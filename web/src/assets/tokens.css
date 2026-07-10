@@ -1,56 +1,82 @@
 :root {
-  --color-bg: #f0f5f9;
-  --color-surface: rgba(255, 255, 255, 0.35);
-  --color-card: rgba(255, 255, 255, 0.25);
-  --color-border: rgba(187, 225, 250, 0.5);
-  --color-text: #1a1a2e;
-  --color-text-secondary: #5a6a7a;
-  --color-text-muted: #8a9aaa;
-  --color-accent: #3282b8;
-  --color-accent-hover: #0f4c75;
-  --color-accent-light: rgba(28, 159, 243, 0.12);
-  --color-danger: #e74c3c;
+  /* ── Background & Surface ── */
+  --color-bg:              #e2e8f0;
+  --color-surface:         #ffffff;
 
-  --glass-bg: linear-gradient(135deg, rgba(15, 76, 117, 0.15), rgba(50, 130, 184, 0.15));
-  --glass-blur: blur(10px);
-  --glass-border: rgba(187, 225, 250, 0.4);
+  /* ── Text ── */
+  --color-text:            #0f172a;
+  --color-text-secondary:  #475569;
+  --color-text-muted:      #94a3b8;
 
-  --shadow-sm: 0 2px 8px rgba(15, 76, 117, 0.06);
-  --shadow-md: 0 4px 20px rgba(15, 76, 117, 0.08);
-  --shadow-lg: 0 8px 40px rgba(15, 76, 117, 0.10);
+  /* ── Accent (indigo-violet gradient) ── */
+  --color-accent:          #6366f1;
+  --color-accent-end:      #8b5cf6;
+  --color-accent-subtle:   #eef2ff;
+  --color-accent-border:   #c7d2fe;
 
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
+  /* ── Category colors ── */
+  --cat-math:    #6366f1;
+  --cat-algebra: #8b5cf6;
+  --cat-physics: #06b6d4;
+  --cat-ds:      #f59e0b;
+  --cat-os:      #10b981;
+  --cat-network: #ec4899;
+  --cat-all:     #6366f1;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+  /* ── File type colors ── */
+  --ft-pdf: #ef4444;
+  --ft-zip: #8b5cf6;
+  --ft-doc: #3b82f6;
+  --ft-ppt: #f97316;
+  --ft-img: #10b981;
 
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
+  /* ── Borders ── */
+  --color-border:       #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.03);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+  --shadow-xl: 0 24px 56px rgba(0,0,0,.10);
+
+  /* ── Radii ── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-full: 9999px;
+
+  /* ── Typography ── */
+  --font-sans: 'Inter', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* ── Spacing ── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
   --space-2xl: 48px;
 
-  --sidebar-width: 220px;
+  /* ── Sidebar ── */
+  --sidebar-width: 240px;
 
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
+  /* ── Transitions ── */
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ── Responsive base adjustments ── */
+/* ── Responsive base ── */
 @media (max-width: 640px) {
   :root {
-    --space-sm: 6px;
-    --space-md: 12px;
-    --space-lg: 16px;
-    --space-xl: 24px;
+    --space-sm:  6px;
+    --space-md:  12px;
+    --space-lg:  16px;
+    --space-xl:  24px;
     --space-2xl: 32px;
   }
-
-  html {
-    font-size: 15px;
-  }
+  html { font-size: 15px; }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
@@ -61,11 +87,7 @@
   }
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   font-family: var(--font-sans);
@@ -73,32 +95,18 @@ html {
   color: var(--color-text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  position: relative;
 }
 
 body {
   min-height: 100vh;
-  position: relative;
-  /* 渐变遮罩层：调整 rgba 第四个值 (0.45) 改变遮盖强度，越大图片越淡 */
-  background: linear-gradient(135deg, rgba(232, 240, 248, 0.45) 0%, rgba(240, 245, 249, 0.45) 40%, rgba(232, 239, 246, 0.45) 100%);
-}
-
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: url('./bg.png') center / cover no-repeat;
-  /* ── 背景图片可调参数 ── */
-  /* 模糊强度：0 = 清晰，px 值越大越模糊（推荐 0~10px） */
-  /*filter: blur(2px);*/
-  /* 透明度：0 = 完全透明，1 = 完全不透明 */
-  opacity: 0.6;
-  /* 亮度：1 = 原样，<1 变暗，>1 变亮 */
-   filter: blur(2px) brightness(1.2);  /* 取消注释可同时调模糊+亮度 */
+  background: var(--color-bg);
+  overflow-x: hidden;
+  cursor: default;
 }
 
 a { color: var(--color-accent); text-decoration: none; }
-
 button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+ul, ol { list-style: none; }
 
 /* ── Content swap transition ── */
 .content-swap-enter-active,
@@ -134,16 +142,16 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; }
 
 .popover-overlay {
   position: fixed; inset: 0; z-index: 150;
-  background: rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  background: rgba(15, 23, 42, 0.15);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   display: flex; align-items: flex-start; justify-content: center;
   padding-top: 80px;
 }
 
 .popover {
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   padding: var(--space-sm);
   width: 280px; max-width: 90vw;
@@ -152,23 +160,125 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; }
 .popover-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 16px; border-radius: var(--radius-sm);
-  cursor: pointer; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; font-size: 0.9rem; font-weight: 500;
   color: var(--color-text-secondary);
   transition: background var(--transition-fast);
 }
-.popover-item:hover { background: rgba(50, 130, 184, 0.08); }
+.popover-item:hover { background: var(--color-accent-subtle); }
 
 .popover-item .count {
   font-size: 0.75rem; color: var(--color-accent);
-  background: var(--color-accent-light);
+  background: var(--color-accent-subtle);
   padding: 2px 8px; border-radius: 10px;
 }
 
 .popover-item.active {
-  background: var(--color-accent-light);
+  background: var(--color-accent-subtle);
   color: var(--color-accent);
 }
 
-.popover-list {
-  list-style: none;
+.popover-list { list-style: none; }
+
+/* ============================================================
+   Dark Mode
+   ============================================================ */
+[data-theme="dark"] {
+  --color-bg:              #0f172a;
+  --color-surface:         #1e293b;
+  --color-text:            #f1f5f9;
+  --color-text-secondary:  #94a3b8;
+  --color-text-muted:      #64748b;
+  --color-accent:          #818cf8;
+  --color-accent-end:      #a78bfa;
+  --color-accent-subtle:   rgba(99, 102, 241, 0.12);
+  --color-accent-border:   rgba(129, 140, 248, 0.25);
+  --color-border:          #334155;
+  --color-border-light:    #1e293b;
+
+  --cat-math:    #818cf8;
+  --cat-algebra: #a78bfa;
+  --cat-physics: #22d3ee;
+  --cat-ds:      #fbbf24;
+  --cat-os:      #34d399;
+  --cat-network: #f472b6;
+  --cat-all:     #818cf8;
+
+  --ft-pdf: #f87171;
+  --ft-zip: #a78bfa;
+  --ft-doc: #60a5fa;
+  --ft-ppt: #fb923c;
+  --ft-img: #34d399;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.15);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.25), 0 1px 3px rgba(0,0,0,.2);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
+  --shadow-xl: 0 24px 56px rgba(0,0,0,.35);
 }
+
+/* Dark mode: cursor glow stays same but more subtle */
+[data-theme="dark"] #cursor-glow {
+  background: radial-gradient(circle, rgba(129,140,248,.3) 0%, rgba(167,139,250,.18) 30%, rgba(34,211,238,.08) 55%, transparent 70%) !important;
+}
+
+/* Dark mode: bg orbs dimmer */
+[data-theme="dark"] #bg-orbs .bg-orb:nth-child(1) { background: #312e81; opacity: .3; }
+[data-theme="dark"] #bg-orbs .bg-orb:nth-child(2) { background: #4338ca; opacity: .25; }
+[data-theme="dark"] #bg-orbs .bg-orb:nth-child(3) { background: #164e63; opacity: .25; }
+
+/* Dark mode: modals */
+[data-theme="dark"] .btn-close { background: #334155; }
+[data-theme="dark"] .btn-close:hover { background: #475569; }
+
+/* Dark mode: popover overlay */
+[data-theme="dark"] .popover-overlay { background: rgba(0, 0, 0, 0.4); }
+
+/* Dark mode: admin sidebar stays dark */
+[data-theme="dark"] .admin-sidebar { background: #0b1120; }
+
+/* Dark mode: sidebar hover & count badges */
+html[data-theme="dark"] .category-item:hover { background: rgba(255,255,255,.04); color: var(--color-text); }
+html[data-theme="dark"] .category-item.active { background: var(--color-accent-subtle); color: var(--color-accent); }
+html[data-theme="dark"] .category-count { background: rgba(255,255,255,.06); }
+
+/* Dark mode: card category tags */
+html[data-theme="dark"] .card-category { background: rgba(255,255,255,.05) !important; }
+html[data-theme="dark"] .card:hover { border-color: var(--color-border); }
+
+/* Dark mode: file type badge backgrounds */
+html[data-theme="dark"] .card.pdf .card-badge { background: rgba(248,113,113,.12) !important; }
+html[data-theme="dark"] .card.zip .card-badge,
+html[data-theme="dark"] .card.rar .card-badge,
+html[data-theme="dark"] .card.\37 z .card-badge,
+html[data-theme="dark"] .card.tar .card-badge,
+html[data-theme="dark"] .card.gz .card-badge { background: rgba(167,139,250,.12) !important; }
+html[data-theme="dark"] .card.doc .card-badge,
+html[data-theme="dark"] .card.docx .card-badge { background: rgba(96,165,250,.12) !important; }
+html[data-theme="dark"] .card.ppt .card-badge,
+html[data-theme="dark"] .card.pptx .card-badge { background: rgba(251,146,60,.12) !important; }
+html[data-theme="dark"] .card.png .card-badge,
+html[data-theme="dark"] .card.jpg .card-badge,
+html[data-theme="dark"] .card.jpeg .card-badge { background: rgba(52,211,153,.12) !important; }
+
+/* Dark mode: pagination */
+html[data-theme="dark"] .page-btn { background: var(--color-surface); border-color: var(--color-border); }
+html[data-theme="dark"] .page-btn:hover:not(:disabled) { background: var(--color-accent-subtle); }
+
+/* Dark mode: modals */
+html[data-theme="dark"] .modal-footer button { background: var(--color-bg-alt, #1e293b); }
+html[data-theme="dark"] .modal-footer button:hover:not(:disabled) { background: var(--color-accent-subtle); }
+
+/* Dark mode: empty state */
+html[data-theme="dark"] .empty-art { background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(139,92,246,.1)) !important; }
+html[data-theme="dark"] .empty-art svg { color: rgba(129,140,248,.4) !important; }
+
+/* Dark mode: admin upload page */
+html[data-theme="dark"] .file-item { background: rgba(255,255,255,.04); }
+
+/* Dark mode: mobile sidebar pills */
+html[data-theme="dark"] .sidebar .category-item { background: var(--color-surface); }
+html[data-theme="dark"] .sidebar .category-item.active { background: var(--color-accent); }
+
+/* Dark mode: glass-card in admin */
+html[data-theme="dark"] .glass-card { background: var(--color-surface); }
+html[data-theme="dark"] .glass-card select,
+html[data-theme="dark"] .glass-card input { background: #0f172a; color: var(--color-text); border-color: var(--color-border); }

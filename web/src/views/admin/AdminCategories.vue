@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { adminLoadCategories, adminSaveCategories } from '@/utils/admin-api'
+import { clearCache } from '@/utils/data'
 import type { Category } from '@/types'
 
 const categories = ref<Category[]>([])
@@ -66,6 +67,7 @@ async function handleSubmit() {
     })
   }
   await adminSaveCategories(categories.value)
+  clearCache()
   resetForm()
 }
 
@@ -73,6 +75,7 @@ async function deleteCat(id: string) {
   if (!confirm('确定删除该学科？只能删除没有文件归属的学科。')) return
   categories.value = categories.value.filter((c) => c.id !== id)
   await adminSaveCategories(categories.value)
+  clearCache()
 }
 </script>
 
